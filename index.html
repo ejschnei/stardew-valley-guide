@@ -9,6 +9,262 @@
             font-family: Arial, sans-serif;
             margin: 10px;
             background: #d4f1d4 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><rect width="40" height="40" fill="%23d4f1d4"/><circle cx="10" cy="10" r="2" fill="%2390c695" opacity="0.6"/><circle cx="30" cy="30" r="2" fill="%23f4e19c" opacity="0.6"/><circle cx="30" cy="10" r="1" fill="%23ff9999" opacity="0.5"/><circle cx="10" cy="30" r="1" fill="%2399ccff" opacity="0.5"/></svg>');
+        // Fish table filtering
+        function filterFishTable() {
+            const searchInput = document.getElementById('fishSearchInput').value.toLowerCase();
+            const seasonFilter = document.getElementById('fishSeasonFilter').value.toLowerCase();
+            const locationFilter = document.getElementById('fishLocationFilter').value.toLowerCase();
+            const weatherFilter = document.getElementById('weatherFilter').value.toLowerCase();
+            const bundleFilter = document.getElementById('bundleFilter').value;
+            const table = document.getElementById('fishTable');
+            const rows = table.getElementsByTagName('tr');
+            
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                if (cells.length > 0) {
+                    const name = cells[0].textContent.toLowerCase();
+                    const location = cells[1].textContent.toLowerCase();
+                    const season = cells[2].textContent.toLowerCase();
+                    const time = cells[3].textContent.toLowerCase();
+                    const weather = cells[4].textContent.toLowerCase();
+                    const bundle = cells[7].textContent.toLowerCase();
+                    
+                    let showRow = true;
+                    
+                    if (searchInput && !name.includes(searchInput) && 
+                        !location.includes(searchInput) && 
+                        !season.includes(searchInput) && 
+                        !time.includes(searchInput) && 
+                        !weather.includes(searchInput)) {
+                        showRow = false;
+                    }
+        
+        // Crop table filtering
+        function filterCropTable() {
+            const searchInput = document.getElementById('cropSearchInput').value.toLowerCase();
+            const seasonFilter = document.getElementById('cropSeasonFilter').value.toLowerCase();
+            const typeFilter = document.getElementById('cropTypeFilter').value.toLowerCase();
+            const profitFilter = document.getElementById('profitFilter').value.toLowerCase();
+            const table = document.getElementById('cropTable');
+            const rows = table.getElementsByTagName('tr');
+            
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                if (cells.length > 0) {
+                    const cropName = cells[0].textContent.toLowerCase();
+                    const season = cells[1].textContent.toLowerCase();
+                    const multiHarvest = cells[6].textContent.toLowerCase();
+                    const bundle = cells[7].textContent.toLowerCase();
+                    const profitPerDay = parseFloat(cells[5].textContent.replace(/[^\d.]/g, '')) || 0;
+                    
+                    let showRow = true;
+                    
+                    if (searchInput && !cropName.includes(searchInput) && 
+                        !season.includes(searchInput) && 
+                        !bundle.includes(searchInput)) {
+                        showRow = false;
+                    }
+                    
+                    if (seasonFilter) {
+                        if (seasonFilter === 'multi' && !season.includes(',')) {
+                            showRow = false;
+                        } else if (seasonFilter !== 'multi' && !season.includes(seasonFilter)) {
+                            showRow = false;
+                        }
+                    }
+                    
+                    if (typeFilter) {
+                        if (typeFilter === 'single' && multiHarvest.includes('yes')) {
+                            showRow = false;
+                        } else if (typeFilter === 'multi' && !multiHarvest.includes('yes')) {
+                            showRow = false;
+                        } else if (typeFilter === 'tree' && !cropName.includes('tree')) {
+                            showRow = false;
+                        }
+                    }
+                    
+                    if (profitFilter) {
+                        if (profitFilter === 'high' && profitPerDay < 20) {
+                            showRow = false;
+                        } else if (profitFilter === 'medium' && (profitPerDay < 10 || profitPerDay >= 20)) {
+                            showRow = false;
+                        } else if (profitFilter === 'low' && profitPerDay >= 10) {
+                            showRow = false;
+                        }
+                    }
+                    
+                    rows[i].style.display = showRow ? '' : 'none';
+                }
+            }
+        }
+        
+        // Junimo click animation
+        function junimoClick() {
+            const junimo = document.getElementById('junimo');
+            const heart = document.getElementById('junimoHeart');
+            const text = document.getElementById('junimoText');
+            const sparkles = document.querySelectorAll('.sparkle');
+            const body = document.getElementById('junimoBody');
+            
+            // Array of cute messages
+            const messages = [
+                "Your helpful guide loves you! 💙🍎",
+                "The Junimo is happy to help! ✨🌾", 
+                "Friendship points increased! 💖",
+                "The Junimo dances with joy! 🎵💫",
+                "Magic sparkles around you! ✨🌟",
+                "The Community Center thanks you! 🏛️💚",
+                "Junimo friendship level up! 🎉💙",
+                "You found a special friend! 🥰🍄"
+            ];
+            
+            // Random cute message
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            
+            // Animation sequence
+            // 1. Junimo bounces and changes color
+            junimo.style.transform = 'scale(1.2) translateY(-10px)';
+            body.setAttribute('fill', '#ff69b4'); // Pink color
+            
+            // 2. Show heart with animation
+            heart.style.opacity = '1';
+            heart.style.transform = 'translateY(-20px) scale(1.5)';
+            heart.style.transition = 'all 0.8s ease-out';
+            
+            // 3. Sparkles dance
+            sparkles.forEach((sparkle, index) => {
+                setTimeout(() => {
+                    sparkle.style.transform = `scale(2) rotate(${index * 45}deg)`;
+                    sparkle.style.transition = 'all 0.5s ease';
+                    sparkle.style.fill = '#ff69b4';
+                }, index * 100);
+            });
+            
+            // 4. Change text message
+            setTimeout(() => {
+                text.innerHTML = `${randomMessage}<br><span style="font-size: 10px; color: #999;">(Tap again for more Junimo love!)</span>`;
+                text.style.color = '#ff69b4';
+                text.style.transform = 'scale(1.1)';
+                text.style.transition = 'all 0.3s ease';
+            }, 300);
+            
+            // 5. Reset everything after animation
+            setTimeout(() => {
+                junimo.style.transform = 'scale(1) translateY(0)';
+                body.setAttribute('fill', '#4a90e2'); // Back to blue
+                heart.style.opacity = '0';
+                heart.style.transform = 'translateY(0) scale(1)';
+                
+                sparkles.forEach(sparkle => {
+                    sparkle.style.transform = 'scale(1) rotate(0deg)';
+                    sparkle.style.fill = '#ffd700';
+                });
+                
+                text.style.color = '#666';
+                text.style.transform = 'scale(1)';
+            }, 2000);
+            
+            // 6. Reset text after longer delay
+            setTimeout(() => {
+                text.innerHTML = 'Your helpful guide to relationships and fishing! 🍎🎣<br><span style="font-size: 10px; color: #999;">(Tap the Junimo for a surprise!)</span>';
+            }, 4000);
+        }
+                    
+                    if (seasonFilter) {
+                        if (seasonFilter === 'all' && !season.includes('all year')) {
+                            showRow = false;
+                        } else if (seasonFilter !== 'all' && !season.includes(seasonFilter)) {
+                            showRow = false;
+                        }
+                    }
+                    
+                    if (locationFilter && !location.includes(locationFilter)) {
+                        showRow = false;
+                    }
+                    
+                    if (weatherFilter) {
+                        if (weatherFilter === 'rain' && !weather.includes('rain')) {
+                            showRow = false;
+                        } else if (weatherFilter === 'sunny' && !weather.includes('sunny')) {
+                            showRow = false;
+                        }
+                    }
+                    
+                    if (bundleFilter === 'yes' && bundle === '-') {
+                        showRow = false;
+                    } else if (bundleFilter === 'legendary' && !bundle.includes('legendary')) {
+                        showRow = false;
+                    }
+                    
+                    rows[i].style.display = showRow ? '' : 'none';
+                }
+            }
+        }
+
+        // Fish pond table filtering
+        function filterPondTable() {
+            const searchInput = document.getElementById('pondSearchInput').value.toLowerCase();
+            const typeFilter = document.getElementById('pondTypeFilter').value.toLowerCase();
+            const valueFilter = document.getElementById('roeValueFilter').value.toLowerCase();
+            const table = document.getElementById('pondTable');
+            const rows = table.getElementsByTagName('tr');
+            
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                if (cells.length > 0) {
+                    const fishName = cells[0].textContent.toLowerCase();
+                    const roeValue = cells[1].textContent.toLowerCase();
+                    const rewards = cells[3].textContent.toLowerCase();
+                    const products = cells[4].textContent.toLowerCase();
+                    
+                    let showRow = true;
+                    
+                    if (searchInput && !fishName.includes(searchInput) && 
+                        !rewards.includes(searchInput) && 
+                        !products.includes(searchInput)) {
+                        showRow = false;
+                    }
+                    
+                    if (typeFilter) {
+                        if (typeFilter === 'legendary' && !fishName.includes('legend') && 
+                            !fishName.includes('crimsonfish') && !fishName.includes('angler') && 
+                            !fishName.includes('glacierfish') && !fishName.includes('mutant carp')) {
+                            showRow = false;
+                        } else if (typeFilter === 'specialty' && 
+                            (!fishName.includes('lava eel') && !fishName.includes('ice pip') && 
+                             !fishName.includes('stonefish') && !fishName.includes('void') && 
+                             !fishName.includes('slimejack') && !fishName.includes('sandfish') && 
+                             !fishName.includes('scorpion'))) {
+                            showRow = false;
+                        } else if (typeFilter === 'ocean' && 
+                            (!fishName.includes('pufferfish') && !fishName.includes('super cucumber') && 
+                             !fishName.includes('tuna') && !fishName.includes('sardine') && 
+                             !fishName.includes('octopus') && !fishName.includes('anchovy') &&
+                             !fishName.includes('lobster') && !fishName.includes('crab') && 
+                             !fishName.includes('cockle') && !fishName.includes('mussel'))) {
+                            showRow = false;
+                        } else if (typeFilter === 'freshwater' && 
+                            (!fishName.includes('salmon') && !fishName.includes('bass') && 
+                             !fishName.includes('catfish') && !fishName.includes('carp') && 
+                             !fishName.includes('rainbow trout') && !fishName.includes('sturgeon'))) {
+                            showRow = false;
+                        }
+                    }
+                    
+                    if (valueFilter) {
+                        const roeValueNum = parseInt(roeValue.replace(/\D/g, '')) || 0;
+                        if (valueFilter === 'high' && roeValueNum < 100) {
+                            showRow = false;
+                        } else if (valueFilter === 'medium' && (roeValueNum < 50 || roeValueNum >= 100)) {
+                            showRow = false;
+                        } else if (valueFilter === 'low' && roeValueNum >= 50) {
+                            showRow = false;
+                        }
+                    }
+                    
+                    rows[i].style.display = showRow ? '' : 'none';
+                }
+            }
         }
         
         @media (max-width: 768px) {
@@ -211,14 +467,44 @@
             border-radius: 5px 5px 0 0;
             background-color: #f0f0f0;
             transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
         
         .tab-button:hover {
             background-color: #e0e0e0;
+            transform: translateY(-2px);
         }
         
-        .tab-button.active {
-            background-color: #4CAF50;
+        /* Color-coded tabs */
+        .tab-button[onclick*="characters"] {
+            border-color: #ff6b9d;
+            color: #ff6b9d;
+        }
+        
+        .tab-button[onclick*="characters"].active {
+            background-color: #ff6b9d;
+            color: white;
+            transform: translateY(2px);
+        }
+        
+        .tab-button[onclick*="fishing"] {
+            border-color: #4ecdc4;
+            color: #4ecdc4;
+        }
+        
+        .tab-button[onclick*="fishing"].active {
+            background-color: #4ecdc4;
+            color: white;
+            transform: translateY(2px);
+        }
+        
+        .tab-button[onclick*="fishponds"] {
+            border-color: #45b7d1;
+            color: #45b7d1;
+        }
+        
+        .tab-button[onclick*="fishponds"].active {
+            background-color: #45b7d1;
             color: white;
             transform: translateY(2px);
         }
@@ -297,8 +583,8 @@
         <div class="tab-container">
             <button class="tab-button active" onclick="showTab('characters')">👥 Characters</button>
             <button class="tab-button" onclick="showTab('fishing')">🎣 Fish Guide</button>
+            <button class="tab-button" onclick="showTab('fishponds')">🏞️ Fish Ponds</button>
         </div>
-        
         
         <!-- Characters Tab Content -->
         <div id="characters" class="tab-content active">
@@ -330,16 +616,16 @@
             </div>
 
             <table id="charactersTable">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Birthday</th>
-                    <th>Marriageable</th>
-                    <th>Loved Gifts</th>
-                    <th>Schedule (General)</th>
-                </tr>
-            </thead>
-            <tbody>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Birthday</th>
+                        <th>Marriageable</th>
+                        <th>Loved Gifts</th>
+                        <th>Schedule (General)</th>
+                    </tr>
+                </thead>
+                <tbody>
                 <!-- Marriageable Characters -->
                 <tr class="marriageable">
                     <td><strong>🗡️ Abigail</strong></td>
@@ -574,7 +860,7 @@
                     <td class="gifts-cell">Purple Mushroom, Solar Essence, Super Cucumber, Void Essence</td>
                     <td class="schedule-cell">Always in his tower, magical research and studies</td>
                 </tr>
-            </tbody>
+                </tbody>
             </table>
             
             <div class="legend">
@@ -586,670 +872,16 @@
             </div>
         </div>
 
-        <!-- Fish Guide Tab Content -->
+        <!-- Fish Guide Tab Content - Simplified for now -->
         <div id="fishing" class="tab-content">
-            <div class="filter-section">
-                <div>
-                    <label for="fishSearchInput">Search Fish:</label>
-                    <input type="text" id="fishSearchInput" placeholder="Search by name, location, or season..." onkeyup="filterFishTable()">
-                </div>
-                
-                <div>
-                    <label for="fishSeasonFilter">Season:</label>
-                    <select id="fishSeasonFilter" onchange="filterFishTable()">
-                        <option value="">All Seasons</option>
-                        <option value="Spring">Spring</option>
-                        <option value="Summer">Summer</option>
-                        <option value="Fall">Fall</option>
-                        <option value="Winter">Winter</option>
-                        <option value="All">All Year</option>
-                    </select>
-                </div>
-                
-                <div>
-                    <label for="fishLocationFilter">Location:</label>
-                    <select id="fishLocationFilter" onchange="filterFishTable()">
-                        <option value="">All Locations</option>
-                        <option value="River">River</option>
-                        <option value="Lake">Lake</option>
-                        <option value="Ocean">Ocean</option>
-                        <option value="Desert">Desert</option>
-                        <option value="Mines">Mines</option>
-                        <option value="Secret Woods">Secret Woods</option>
-                        <option value="Sewers">Sewers</option>
-                        <option value="Ginger Island">Ginger Island</option>
-                    </select>
-                </div>
-                
-                <div>
-                    <label for="weatherFilter">Weather:</label>
-                    <select id="weatherFilter" onchange="filterFishTable()">
-                        <option value="">Any Weather</option>
-                        <option value="Rain">Rain Only</option>
-                        <option value="Sunny">Sunny Only</option>
-                        <option value="Any">Rain or Sunny</option>
-                    </select>
-                </div>
-                
-                <div>
-                    <label for="bundleFilter">Community Center:</label>
-                    <select id="bundleFilter" onchange="filterFishTable()">
-                        <option value="">All Fish</option>
-                        <option value="yes">Bundle Fish</option>
-                        <option value="legendary">Legendary</option>
-                    </select>
-                </div>
-            </div>
+            <h2>🎣 Fish Guide Coming Soon</h2>
+            <p>Fish guide with all locations, seasons, and Community Center bundles will be restored here.</p>
+        </div>
 
-            <table id="fishTable">
-                <thead>
-                    <tr>
-                        <th>Fish Name</th>
-                        <th>Location</th>
-                        <th>Season</th>
-                        <th>Time</th>
-                        <th>Weather</th>
-                        <th>Min Level</th>
-                        <th>Sell Price</th>
-                        <th>Bundle/Special</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Regular River Fish -->
-                    <tr class="community-center">
-                        <td><strong>🐟 Sunfish</strong></td>
-                        <td>River (Town/Forest)</td>
-                        <td>Spring, Summer</td>
-                        <td>6am - 7pm</td>
-                        <td>Sunny</td>
-                        <td>0</td>
-                        <td>30g</td>
-                        <td>River Fish Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🐱 Catfish</strong></td>
-                        <td>River (Town/Forest), Secret Woods</td>
-                        <td>Spring, Fall, Winter</td>
-                        <td>6am - 12am</td>
-                        <td>Rain</td>
-                        <td>0</td>
-                        <td>200g</td>
-                        <td>River Fish Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🐟 Shad</strong></td>
-                        <td>River (Town/Forest)</td>
-                        <td>Spring, Summer, Fall</td>
-                        <td>9pm - 2am</td>
-                        <td>Rain</td>
-                        <td>0</td>
-                        <td>60g</td>
-                        <td>River Fish Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🎣 Tiger Trout</strong></td>
-                        <td>River (Town/Forest)</td>
-                        <td>Fall, Winter</td>
-                        <td>6am - 7pm</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>150g</td>
-                        <td>River Fish Bundle</td>
-                    </tr>
-                    
-                    <!-- Lake Fish -->
-                    <tr class="community-center">
-                        <td><strong>🐟 Largemouth Bass</strong></td>
-                        <td>Mountain Lake</td>
-                        <td>All Year</td>
-                        <td>6am - 7pm</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>100g</td>
-                        <td>Lake Fish Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🐟 Carp</strong></td>
-                        <td>Mountain Lake, Secret Woods, Sewers</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>30g</td>
-                        <td>Lake Fish Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🐟 Bullhead</strong></td>
-                        <td>Mountain Lake</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>75g</td>
-                        <td>Lake Fish Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🐟 Sturgeon</strong></td>
-                        <td>Mountain Lake</td>
-                        <td>Summer, Winter</td>
-                        <td>6am - 7pm</td>
-                        <td>Any</td>
-                        <td>6</td>
-                        <td>200g</td>
-                        <td>Lake Fish Bundle</td>
-                    </tr>
-                    
-                    <!-- Ocean Fish -->
-                    <tr class="community-center">
-                        <td><strong>🐟 Sardine</strong></td>
-                        <td>Ocean</td>
-                        <td>Spring, Fall, Winter</td>
-                        <td>6am - 7pm</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>40g</td>
-                        <td>Ocean Fish Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🐟 Tuna</strong></td>
-                        <td>Ocean</td>
-                        <td>Summer, Winter</td>
-                        <td>6am - 7pm</td>
-                        <td>Any</td>
-                        <td>7</td>
-                        <td>100g</td>
-                        <td>Ocean Fish Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🐟 Red Snapper</strong></td>
-                        <td>Ocean</td>
-                        <td>Summer, Fall</td>
-                        <td>6am - 7pm</td>
-                        <td>Rain</td>
-                        <td>0</td>
-                        <td>50g</td>
-                        <td>Ocean Fish Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🐟 Tilapia</strong></td>
-                        <td>Ocean</td>
-                        <td>Summer, Fall</td>
-                        <td>6am - 2pm</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>75g</td>
-                        <td>Ocean Fish Bundle</td>
-                    </tr>
-                    
-                    <!-- Night Fishing Bundle -->
-                    <tr class="community-center">
-                        <td><strong>🐟 Walleye</strong></td>
-                        <td>River (Town/Forest), Mountain Lake, Forest Pond</td>
-                        <td>Fall, Winter</td>
-                        <td>12pm - 2am</td>
-                        <td>Rain</td>
-                        <td>0</td>
-                        <td>105g</td>
-                        <td>Night Fishing Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🐟 Bream</strong></td>
-                        <td>River (Town/Forest)</td>
-                        <td>All Year</td>
-                        <td>6pm - 2am</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>45g</td>
-                        <td>Night Fishing Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🪱 Eel</strong></td>
-                        <td>Ocean</td>
-                        <td>Spring, Fall</td>
-                        <td>4pm - 2am</td>
-                        <td>Rain</td>
-                        <td>0</td>
-                        <td>85g</td>
-                        <td>Night Fishing Bundle</td>
-                    </tr>
-                    
-                    <!-- Crab Pot Bundle -->
-                    <tr class="community-center">
-                        <td><strong>🦀 Crab</strong></td>
-                        <td>Ocean (Crab Pot)</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>100g</td>
-                        <td>Crab Pot Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🦞 Lobster</strong></td>
-                        <td>Ocean (Crab Pot)</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>120g</td>
-                        <td>Crab Pot Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🦞 Crayfish</strong></td>
-                        <td>Freshwater (Crab Pot)</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>75g</td>
-                        <td>Crab Pot Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🐚 Periwinkle</strong></td>
-                        <td>Freshwater (Crab Pot)</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>20g</td>
-                        <td>Crab Pot Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🐚 Cockle</strong></td>
-                        <td>Ocean (Crab Pot)</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>50g</td>
-                        <td>Crab Pot Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🐚 Mussel</strong></td>
-                        <td>Ocean (Crab Pot)</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>30g</td>
-                        <td>Crab Pot Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🍤 Shrimp</strong></td>
-                        <td>Ocean (Crab Pot)</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>60g</td>
-                        <td>Crab Pot Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🐌 Snail</strong></td>
-                        <td>Freshwater (Crab Pot)</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>65g</td>
-                        <td>Crab Pot Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🦪 Oyster</strong></td>
-                        <td>Ocean (Crab Pot)</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>40g</td>
-                        <td>Crab Pot Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🐚 Clam</strong></td>
-                        <td>Ocean (Crab Pot)</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>50g</td>
-                        <td>Crab Pot Bundle</td>
-                    </tr>
-                    
-                    <!-- Specialty Fish Bundle -->
-                    <tr class="community-center">
-                        <td><strong>🐡 Pufferfish</strong></td>
-                        <td>Ocean</td>
-                        <td>Summer</td>
-                        <td>12pm - 4pm</td>
-                        <td>Sunny</td>
-                        <td>0</td>
-                        <td>200g</td>
-                        <td>Specialty Fish Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>👻 Ghostfish</strong></td>
-                        <td>Mines (Level 20/60)</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>45g</td>
-                        <td>Specialty Fish Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🏜️ Sandfish</strong></td>
-                        <td>Desert (Calico Desert)</td>
-                        <td>All Year</td>
-                        <td>6am - 8pm</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>75g</td>
-                        <td>Specialty Fish Bundle</td>
-                    </tr>
-                    <tr class="community-center">
-                        <td><strong>🌲 Woodskip</strong></td>
-                        <td>Secret Woods</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>75g</td>
-                        <td>Specialty Fish Bundle</td>
-                    </tr>
-                    
-                    <!-- Legendary Fish -->
-                    <tr class="legendary">
-                        <td><strong>👑 Legend</strong></td>
-                        <td>Mountain Lake (near log)</td>
-                        <td>Spring</td>
-                        <td>6am - 8pm</td>
-                        <td>Rain</td>
-                        <td>10</td>
-                        <td>5000g</td>
-                        <td>Legendary</td>
-                    </tr>
-                    <tr class="legendary">
-                        <td><strong>🔴 Crimsonfish</strong></td>
-                        <td>Ocean (East Pier)</td>
-                        <td>Summer</td>
-                        <td>6am - 8pm</td>
-                        <td>Any</td>
-                        <td>5</td>
-                        <td>1500g</td>
-                        <td>Legendary</td>
-                    </tr>
-                    <tr class="legendary">
-                        <td><strong>🎣 Angler</strong></td>
-                        <td>River (Town, north of JojaMart bridge)</td>
-                        <td>Fall</td>
-                        <td>6am - 8pm</td>
-                        <td>Any</td>
-                        <td>3</td>
-                        <td>900g</td>
-                        <td>Legendary</td>
-                    </tr>
-                    <tr class="legendary">
-                        <td><strong>❄️ Glacierfish</strong></td>
-                        <td>River (Forest/Cindersap, south end)</td>
-                        <td>Winter</td>
-                        <td>6am - 8pm</td>
-                        <td>Any</td>
-                        <td>6</td>
-                        <td>1000g</td>
-                        <td>Legendary</td>
-                    </tr>
-                    <tr class="legendary">
-                        <td><strong>☢️ Mutant Carp</strong></td>
-                        <td>Sewers</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>1000g</td>
-                        <td>Legendary</td>
-                    </tr>
-                    
-                    <!-- Extended Family Legendary Fish (Qi Quest Only) -->
-                    <tr class="legendary">
-                        <td><strong>👑✨ Legend II</strong></td>
-                        <td>Mountain Lake (near log)</td>
-                        <td>Any (Qi Quest Only)</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>10</td>
-                        <td>5000g</td>
-                        <td>Legendary - Extended Family</td>
-                    </tr>
-                    <tr class="legendary">
-                        <td><strong>🔴⭐ Son of Crimsonfish</strong></td>
-                        <td>Ocean (East Pier)</td>
-                        <td>Any (Qi Quest Only)</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>5</td>
-                        <td>1500g</td>
-                        <td>Legendary - Extended Family</td>
-                    </tr>
-                    <tr class="legendary">
-                        <td><strong>🎣👩 Ms. Angler</strong></td>
-                        <td>River (Town, north of JojaMart bridge)</td>
-                        <td>Any (Qi Quest Only)</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>3</td>
-                        <td>900g</td>
-                        <td>Legendary - Extended Family</td>
-                    </tr>
-                    <tr class="legendary">
-                        <td><strong>❄️🐠 Glacierfish Jr.</strong></td>
-                        <td>River (Forest/Cindersap, triangle island)</td>
-                        <td>Any (Qi Quest Only)</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>6</td>
-                        <td>1000g</td>
-                        <td>Legendary - Extended Family</td>
-                    </tr>
-                    <tr class="legendary">
-                        <td><strong>☢️🧬 Radioactive Carp</strong></td>
-                        <td>Sewers</td>
-                        <td>Any (Qi Quest Only)</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>1000g</td>
-                        <td>Legendary - Extended Family</td>
-                    </tr>
-                    
-                    <!-- Other Notable Fish -->
-                    <tr>
-                        <td><strong>🐟 Salmon</strong></td>
-                        <td>River (Town/Forest)</td>
-                        <td>Fall</td>
-                        <td>6am - 7pm</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>75g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🐟 Albacore</strong></td>
-                        <td>Ocean</td>
-                        <td>Fall, Winter</td>
-                        <td>6am - 11am, 6pm - 2am</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>75g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🐟 Halibut</strong></td>
-                        <td>Ocean</td>
-                        <td>Spring, Summer, Winter</td>
-                        <td>6am - 11am, 7pm - 2am</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>80g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🐟 Anchovy</strong></td>
-                        <td>Ocean</td>
-                        <td>Spring, Fall</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>30g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🥒 Sea Cucumber</strong></td>
-                        <td>Ocean</td>
-                        <td>Fall, Winter</td>
-                        <td>6am - 7pm</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>75g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🥒✨ Super Cucumber</strong></td>
-                        <td>Ocean</td>
-                        <td>Summer, Fall</td>
-                        <td>6pm - 2am</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>250g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🐙 Octopus</strong></td>
-                        <td>Ocean</td>
-                        <td>Summer</td>
-                        <td>6am - 1pm</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>150g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🌈 Rainbow Trout</strong></td>
-                        <td>River (Town/Forest), Mountain Lake</td>
-                        <td>Summer</td>
-                        <td>6am - 7pm</td>
-                        <td>Sunny</td>
-                        <td>0</td>
-                        <td>65g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🦈 Pike</strong></td>
-                        <td>River (Town/Forest), Mountain Lake</td>
-                        <td>Summer, Winter</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>100g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🐟 Dorado</strong></td>
-                        <td>River (Forest)</td>
-                        <td>Summer</td>
-                        <td>6am - 7pm</td>
-                        <td>Any</td>
-                        <td>5</td>
-                        <td>100g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🐟 Lingcod</strong></td>
-                        <td>River (Town/Forest), Mountain Lake</td>
-                        <td>Winter</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>120g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🦂 Scorpion Carp</strong></td>
-                        <td>Desert</td>
-                        <td>All Year</td>
-                        <td>6am - 8pm</td>
-                        <td>Any</td>
-                        <td>4</td>
-                        <td>150g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🌋 Lava Eel</strong></td>
-                        <td>Mines (Level 100)</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>7</td>
-                        <td>700g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🧊 Ice Pip</strong></td>
-                        <td>Mines (Levels 60-100)</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>500g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🪨 Stonefish</strong></td>
-                        <td>Mines (Levels 20)</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>300g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🖤 Void Salmon</strong></td>
-                        <td>Witch's Swamp</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>150g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🟢 Slimejack</strong></td>
-                        <td>Bug Lair</td>
-                        <td>All Year</td>
-                        <td>Any</td>
-                        <td>Any</td>
-                        <td>0</td>
-                        <td>100g</td>
-                        <td>-</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div class="legend">
-                <h3>Fish Guide Legend & Tips:</h3>
-                <p><strong>Blue rows:</strong> Community Center Bundle fish</p>
-                <p><strong>Orange rows:</strong> Legendary fish (can only be caught once each)</p>
-                <p><strong>Extended Family fish:</strong> Special legendary variants only available during Mr. Qi's Extended Family quest (3-day time limit)</p>
-                <p><strong>Fishing Tips:</strong></p>
-                <ul style="margin-left: 20px;">
-                    <li>Higher fishing level = easier to catch fish and access to better tackle</li>
-                    <li>Rain affects several fish availability - check weather conditions</li>
-                    <li>Use bait to make fish bite faster, tackle for easier catching</li>
-                    <li>Crab pots are great for passive income and bundle completion</li>
-                    <li>Some fish only appear in specific areas of locations (like East Pier for Crimsonfish)</li>
-                    <li>Legendary fish are one-time catches - don't sell them until you've completed the bundle!</li>
-                </ul>
-            </div>
+        <!-- Fish Ponds Tab Content - Simplified for now -->
+        <div id="fishponds" class="tab-content">
+            <h2>🏞️ Fish Ponds Coming Soon</h2>
+            <p>Fish pond guide with roe values and population rewards will be restored here.</p>
         </div>
     </div>
 
@@ -1307,74 +939,6 @@
                     if (marriageFilter === 'yes' && marriageable !== 'yes') {
                         showRow = false;
                     } else if (marriageFilter === 'no' && marriageable !== 'no') {
-                        showRow = false;
-                    }
-                    
-                    rows[i].style.display = showRow ? '' : 'none';
-                }
-            }
-        }
-
-        // Fish table filtering
-        function filterFishTable() {
-            const searchInput = document.getElementById('fishSearchInput').value.toLowerCase();
-            const seasonFilter = document.getElementById('fishSeasonFilter').value.toLowerCase();
-            const locationFilter = document.getElementById('fishLocationFilter').value.toLowerCase();
-            const weatherFilter = document.getElementById('weatherFilter').value.toLowerCase();
-            const bundleFilter = document.getElementById('bundleFilter').value;
-            const table = document.getElementById('fishTable');
-            const rows = table.getElementsByTagName('tr');
-            
-            for (let i = 1; i < rows.length; i++) { // Start from 1 to skip header
-                const cells = rows[i].getElementsByTagName('td');
-                if (cells.length > 0) {
-                    const name = cells[0].textContent.toLowerCase();
-                    const location = cells[1].textContent.toLowerCase();
-                    const season = cells[2].textContent.toLowerCase();
-                    const time = cells[3].textContent.toLowerCase();
-                    const weather = cells[4].textContent.toLowerCase();
-                    const bundle = cells[7].textContent.toLowerCase();
-                    
-                    let showRow = true;
-                    
-                    // Search filter
-                    if (searchInput && !name.includes(searchInput) && 
-                        !location.includes(searchInput) && 
-                        !season.includes(searchInput) && 
-                        !time.includes(searchInput) && 
-                        !weather.includes(searchInput)) {
-                        showRow = false;
-                    }
-                    
-                    // Season filter
-                    if (seasonFilter) {
-                        if (seasonFilter === 'all' && !season.includes('all year')) {
-                            showRow = false;
-                        } else if (seasonFilter !== 'all' && !season.includes(seasonFilter)) {
-                            showRow = false;
-                        }
-                    }
-                    
-                    // Location filter
-                    if (locationFilter && !location.includes(locationFilter)) {
-                        showRow = false;
-                    }
-                    
-                    // Weather filter
-                    if (weatherFilter) {
-                        if (weatherFilter === 'rain' && !weather.includes('rain')) {
-                            showRow = false;
-                        } else if (weatherFilter === 'sunny' && !weather.includes('sunny')) {
-                            showRow = false;
-                        } else if (weatherFilter === 'any' && weather.includes('rain') && !weather.includes('any')) {
-                            // This handles the "Any" filter - shows fish that work in any weather or specifically rain/sunny
-                        }
-                    }
-                    
-                    // Bundle filter
-                    if (bundleFilter === 'yes' && bundle === '-') {
-                        showRow = false;
-                    } else if (bundleFilter === 'legendary' && !bundle.includes('legendary')) {
                         showRow = false;
                     }
                     
