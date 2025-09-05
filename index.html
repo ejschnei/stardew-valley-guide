@@ -3,274 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stardew Valley Characters</title>
+    <title>Stardew Valley Ultimate Guide</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 10px;
-            background: #d4f1d4 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><rect width="40" height="40" fill="%23d4f1d4"/><circle cx="10" cy="10" r="2" fill="%2390c695" opacity="0.6"/><circle cx="30" cy="30" r="2" fill="%23f4e19c" opacity="0.6"/><circle cx="30" cy="10" r="1" fill="%23ff9999" opacity="0.5"/><circle cx="10" cy="30" r="1" fill="%2399ccff" opacity="0.5"/></svg>');
-        // Fish table filtering
-        function filterFishTable() {
-            const searchInput = document.getElementById('fishSearchInput').value.toLowerCase();
-            const seasonFilter = document.getElementById('fishSeasonFilter').value.toLowerCase();
-            const locationFilter = document.getElementById('fishLocationFilter').value.toLowerCase();
-            const weatherFilter = document.getElementById('weatherFilter').value.toLowerCase();
-            const bundleFilter = document.getElementById('bundleFilter').value;
-            const table = document.getElementById('fishTable');
-            const rows = table.getElementsByTagName('tr');
-            
-            for (let i = 1; i < rows.length; i++) {
-                const cells = rows[i].getElementsByTagName('td');
-                if (cells.length > 0) {
-                    const name = cells[0].textContent.toLowerCase();
-                    const location = cells[1].textContent.toLowerCase();
-                    const season = cells[2].textContent.toLowerCase();
-                    const time = cells[3].textContent.toLowerCase();
-                    const weather = cells[4].textContent.toLowerCase();
-                    const bundle = cells[7].textContent.toLowerCase();
-                    
-                    let showRow = true;
-                    
-                    if (searchInput && !name.includes(searchInput) && 
-                        !location.includes(searchInput) && 
-                        !season.includes(searchInput) && 
-                        !time.includes(searchInput) && 
-                        !weather.includes(searchInput)) {
-                        showRow = false;
-                    }
-        
-        // Crop table filtering
-        function filterCropTable() {
-            const searchInput = document.getElementById('cropSearchInput').value.toLowerCase();
-            const seasonFilter = document.getElementById('cropSeasonFilter').value.toLowerCase();
-            const typeFilter = document.getElementById('cropTypeFilter').value.toLowerCase();
-            const profitFilter = document.getElementById('profitFilter').value.toLowerCase();
-            const table = document.getElementById('cropTable');
-            const rows = table.getElementsByTagName('tr');
-            
-            for (let i = 1; i < rows.length; i++) {
-                const cells = rows[i].getElementsByTagName('td');
-                if (cells.length > 0) {
-                    const cropName = cells[0].textContent.toLowerCase();
-                    const season = cells[1].textContent.toLowerCase();
-                    const multiHarvest = cells[6].textContent.toLowerCase();
-                    const bundle = cells[7].textContent.toLowerCase();
-                    const profitPerDay = parseFloat(cells[5].textContent.replace(/[^\d.]/g, '')) || 0;
-                    
-                    let showRow = true;
-                    
-                    if (searchInput && !cropName.includes(searchInput) && 
-                        !season.includes(searchInput) && 
-                        !bundle.includes(searchInput)) {
-                        showRow = false;
-                    }
-                    
-                    if (seasonFilter) {
-                        if (seasonFilter === 'multi' && !season.includes(',')) {
-                            showRow = false;
-                        } else if (seasonFilter !== 'multi' && !season.includes(seasonFilter)) {
-                            showRow = false;
-                        }
-                    }
-                    
-                    if (typeFilter) {
-                        if (typeFilter === 'single' && multiHarvest.includes('yes')) {
-                            showRow = false;
-                        } else if (typeFilter === 'multi' && !multiHarvest.includes('yes')) {
-                            showRow = false;
-                        } else if (typeFilter === 'tree' && !cropName.includes('tree')) {
-                            showRow = false;
-                        }
-                    }
-                    
-                    if (profitFilter) {
-                        if (profitFilter === 'high' && profitPerDay < 20) {
-                            showRow = false;
-                        } else if (profitFilter === 'medium' && (profitPerDay < 10 || profitPerDay >= 20)) {
-                            showRow = false;
-                        } else if (profitFilter === 'low' && profitPerDay >= 10) {
-                            showRow = false;
-                        }
-                    }
-                    
-                    rows[i].style.display = showRow ? '' : 'none';
-                }
-            }
-        }
-        
-        // Junimo click animation
-        function junimoClick() {
-            const junimo = document.getElementById('junimo');
-            const heart = document.getElementById('junimoHeart');
-            const text = document.getElementById('junimoText');
-            const sparkles = document.querySelectorAll('.sparkle');
-            const body = document.getElementById('junimoBody');
-            
-            // Array of cute messages
-            const messages = [
-                "Your helpful guide loves you! 💙🍎",
-                "The Junimo is happy to help! ✨🌾", 
-                "Friendship points increased! 💖",
-                "The Junimo dances with joy! 🎵💫",
-                "Magic sparkles around you! ✨🌟",
-                "The Community Center thanks you! 🏛️💚",
-                "Junimo friendship level up! 🎉💙",
-                "You found a special friend! 🥰🍄"
-            ];
-            
-            // Random cute message
-            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-            
-            // Animation sequence
-            // 1. Junimo bounces and changes color
-            junimo.style.transform = 'scale(1.2) translateY(-10px)';
-            body.setAttribute('fill', '#ff69b4'); // Pink color
-            
-            // 2. Show heart with animation
-            heart.style.opacity = '1';
-            heart.style.transform = 'translateY(-20px) scale(1.5)';
-            heart.style.transition = 'all 0.8s ease-out';
-            
-            // 3. Sparkles dance
-            sparkles.forEach((sparkle, index) => {
-                setTimeout(() => {
-                    sparkle.style.transform = `scale(2) rotate(${index * 45}deg)`;
-                    sparkle.style.transition = 'all 0.5s ease';
-                    sparkle.style.fill = '#ff69b4';
-                }, index * 100);
-            });
-            
-            // 4. Change text message
-            setTimeout(() => {
-                text.innerHTML = `${randomMessage}<br><span style="font-size: 10px; color: #999;">(Tap again for more Junimo love!)</span>`;
-                text.style.color = '#ff69b4';
-                text.style.transform = 'scale(1.1)';
-                text.style.transition = 'all 0.3s ease';
-            }, 300);
-            
-            // 5. Reset everything after animation
-            setTimeout(() => {
-                junimo.style.transform = 'scale(1) translateY(0)';
-                body.setAttribute('fill', '#4a90e2'); // Back to blue
-                heart.style.opacity = '0';
-                heart.style.transform = 'translateY(0) scale(1)';
-                
-                sparkles.forEach(sparkle => {
-                    sparkle.style.transform = 'scale(1) rotate(0deg)';
-                    sparkle.style.fill = '#ffd700';
-                });
-                
-                text.style.color = '#666';
-                text.style.transform = 'scale(1)';
-            }, 2000);
-            
-            // 6. Reset text after longer delay
-            setTimeout(() => {
-                text.innerHTML = 'Your helpful guide to relationships and fishing! 🍎🎣<br><span style="font-size: 10px; color: #999;">(Tap the Junimo for a surprise!)</span>';
-            }, 4000);
-        }
-                    
-                    if (seasonFilter) {
-                        if (seasonFilter === 'all' && !season.includes('all year')) {
-                            showRow = false;
-                        } else if (seasonFilter !== 'all' && !season.includes(seasonFilter)) {
-                            showRow = false;
-                        }
-                    }
-                    
-                    if (locationFilter && !location.includes(locationFilter)) {
-                        showRow = false;
-                    }
-                    
-                    if (weatherFilter) {
-                        if (weatherFilter === 'rain' && !weather.includes('rain')) {
-                            showRow = false;
-                        } else if (weatherFilter === 'sunny' && !weather.includes('sunny')) {
-                            showRow = false;
-                        }
-                    }
-                    
-                    if (bundleFilter === 'yes' && bundle === '-') {
-                        showRow = false;
-                    } else if (bundleFilter === 'legendary' && !bundle.includes('legendary')) {
-                        showRow = false;
-                    }
-                    
-                    rows[i].style.display = showRow ? '' : 'none';
-                }
-            }
-        }
-
-        // Fish pond table filtering
-        function filterPondTable() {
-            const searchInput = document.getElementById('pondSearchInput').value.toLowerCase();
-            const typeFilter = document.getElementById('pondTypeFilter').value.toLowerCase();
-            const valueFilter = document.getElementById('roeValueFilter').value.toLowerCase();
-            const table = document.getElementById('pondTable');
-            const rows = table.getElementsByTagName('tr');
-            
-            for (let i = 1; i < rows.length; i++) {
-                const cells = rows[i].getElementsByTagName('td');
-                if (cells.length > 0) {
-                    const fishName = cells[0].textContent.toLowerCase();
-                    const roeValue = cells[1].textContent.toLowerCase();
-                    const rewards = cells[3].textContent.toLowerCase();
-                    const products = cells[4].textContent.toLowerCase();
-                    
-                    let showRow = true;
-                    
-                    if (searchInput && !fishName.includes(searchInput) && 
-                        !rewards.includes(searchInput) && 
-                        !products.includes(searchInput)) {
-                        showRow = false;
-                    }
-                    
-                    if (typeFilter) {
-                        if (typeFilter === 'legendary' && !fishName.includes('legend') && 
-                            !fishName.includes('crimsonfish') && !fishName.includes('angler') && 
-                            !fishName.includes('glacierfish') && !fishName.includes('mutant carp')) {
-                            showRow = false;
-                        } else if (typeFilter === 'specialty' && 
-                            (!fishName.includes('lava eel') && !fishName.includes('ice pip') && 
-                             !fishName.includes('stonefish') && !fishName.includes('void') && 
-                             !fishName.includes('slimejack') && !fishName.includes('sandfish') && 
-                             !fishName.includes('scorpion'))) {
-                            showRow = false;
-                        } else if (typeFilter === 'ocean' && 
-                            (!fishName.includes('pufferfish') && !fishName.includes('super cucumber') && 
-                             !fishName.includes('tuna') && !fishName.includes('sardine') && 
-                             !fishName.includes('octopus') && !fishName.includes('anchovy') &&
-                             !fishName.includes('lobster') && !fishName.includes('crab') && 
-                             !fishName.includes('cockle') && !fishName.includes('mussel'))) {
-                            showRow = false;
-                        } else if (typeFilter === 'freshwater' && 
-                            (!fishName.includes('salmon') && !fishName.includes('bass') && 
-                             !fishName.includes('catfish') && !fishName.includes('carp') && 
-                             !fishName.includes('rainbow trout') && !fishName.includes('sturgeon'))) {
-                            showRow = false;
-                        }
-                    }
-                    
-                    if (valueFilter) {
-                        const roeValueNum = parseInt(roeValue.replace(/\D/g, '')) || 0;
-                        if (valueFilter === 'high' && roeValueNum < 100) {
-                            showRow = false;
-                        } else if (valueFilter === 'medium' && (roeValueNum < 50 || roeValueNum >= 100)) {
-                            showRow = false;
-                        } else if (valueFilter === 'low' && roeValueNum >= 50) {
-                            showRow = false;
-                        }
-                    }
-                    
-                    rows[i].style.display = showRow ? '' : 'none';
-                }
-            }
-        }
-        
-        @media (max-width: 768px) {
-            body {
-                margin: 5px;
-            }
+            background: #d4f1d4;
         }
         
         .container {
@@ -278,86 +16,51 @@
             border-radius: 8px;
             padding: 15px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            backdrop-filter: blur(2px);
-            overflow-x: auto;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-                border-radius: 4px;
-            }
         }
         
         h1 {
             text-align: center;
             color: #2c5530;
             margin-bottom: 20px;
-            font-size: 24px;
         }
         
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 20px;
-                margin-bottom: 15px;
-            }
-        }
-        
-        .filter-section {
-            margin-bottom: 20px;
+        .tab-container {
             display: flex;
-            gap: 10px;
+            gap: 5px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
-            align-items: center;
         }
         
-        @media (max-width: 768px) {
-            .filter-section {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 8px;
-            }
-            
-            .filter-section > div {
-                display: flex;
-                flex-direction: column;
-                gap: 4px;
-            }
+        .tab-button {
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 120px;
         }
         
-        .filter-section label {
-            font-weight: bold;
+        .characters-tab { background-color: #ff6b9d; color: white; }
+        .fishing-tab { background-color: #4ecdc4; color: white; }
+        .ponds-tab { background-color: #45b7d1; color: white; }
+        .crops-tab { background-color: #28a745; color: white; }
+        
+        .tab-content {
+            display: none;
+            padding: 10px 0;
         }
         
-        .filter-section input, .filter-section select {
-            padding: 12px 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        
-        @media (max-width: 768px) {
-            .filter-section input, .filter-section select {
-                padding: 14px 12px;
-                font-size: 16px;
-                width: 100%;
-                box-sizing: border-box;
-            }
+        .tab-content.active {
+            display: block;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 14px;
-            table-layout: fixed;
-        }
-        
-        @media (max-width: 768px) {
-            table {
-                font-size: 12px;
-                table-layout: auto;
-            }
+            margin: 15px 0;
+            font-size: 13px;
         }
         
         th, td {
@@ -367,585 +70,482 @@
             vertical-align: top;
         }
         
-        @media (max-width: 768px) {
-            th, td {
-                padding: 6px 4px;
-                font-size: 12px;
-                vertical-align: top;
-            }
-            
-            /* Character name column */
-            th:first-child, td:first-child {
-                width: 25%;
-                font-weight: bold;
-            }
-            
-            /* Birthday column */
-            th:nth-child(2), td:nth-child(2) {
-                width: 15%;
-            }
-            
-            /* Marriageable column */
-            th:nth-child(3), td:nth-child(3) {
-                width: 10%;
-            }
-            
-            /* Gifts column */
-            th:nth-child(4), td:nth-child(4) {
-                width: 25%;
-            }
-            
-            /* Schedule column */
-            th:nth-child(5), td:nth-child(5) {
-                width: 25%;
-            }
-        }
-        
         th {
             background-color: #4CAF50;
             color: white;
             font-weight: bold;
-            position: sticky;
-            top: 0;
-            z-index: 10;
         }
         
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+        .marriageable { background-color: #ffe6f2; }
+        .legendary { background-color: #ffe6cc; }
+        .community-center { background-color: #e6f3ff; }
+        .high-profit { background-color: #e6ffe6; }
+        .multi-harvest { background-color: #fff3e0; }
         
-        tr:hover {
-            background-color: #f0f8ff;
-        }
-        
-        .marriageable {
-            background-color: #ffe6f2;
-        }
-        
-        .marriageable:hover {
-            background-color: #ffd6ed;
-        }
-        
-        .schedule-cell {
-            font-size: 0.9em;
-            max-width: 300px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        
-        .gifts-cell {
-            max-width: 250px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        
-        .legend {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f0f0f0;
-            border-radius: 5px;
-        }
-        
-        .legend h3 {
-            margin-top: 0;
-        }
-        
-        /* Tab Styles */
-        .tab-container {
+        .filter-section {
+            margin: 15px 0;
             display: flex;
-            gap: 5px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #ddd;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
-        .tab-button {
-            background: none;
-            border: none;
-            padding: 12px 20px;
-            cursor: pointer;
+        .filter-section input, .filter-section select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             font-size: 14px;
-            border-radius: 5px 5px 0 0;
-            background-color: #f0f0f0;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-        
-        .tab-button:hover {
-            background-color: #e0e0e0;
-            transform: translateY(-2px);
-        }
-        
-        /* Color-coded tabs */
-        .tab-button[onclick*="characters"] {
-            border-color: #ff6b9d;
-            color: #ff6b9d;
-        }
-        
-        .tab-button[onclick*="characters"].active {
-            background-color: #ff6b9d;
-            color: white;
-            transform: translateY(2px);
-        }
-        
-        .tab-button[onclick*="fishing"] {
-            border-color: #4ecdc4;
-            color: #4ecdc4;
-        }
-        
-        .tab-button[onclick*="fishing"].active {
-            background-color: #4ecdc4;
-            color: white;
-            transform: translateY(2px);
-        }
-        
-        .tab-button[onclick*="fishponds"] {
-            border-color: #45b7d1;
-            color: #45b7d1;
-        }
-        
-        .tab-button[onclick*="fishponds"].active {
-            background-color: #45b7d1;
-            color: white;
-            transform: translateY(2px);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        /* Fish-specific styles */
-        .legendary {
-            background-color: #ffe6cc;
-        }
-        
-        .legendary:hover {
-            background-color: #ffd9b3;
-        }
-        
-        .community-center {
-            background-color: #e6f3ff;
-        }
-        
-        .community-center:hover {
-            background-color: #d1ebff;
+            min-width: 150px;
         }
         
         @media (max-width: 768px) {
-            .tab-button {
-                padding: 10px 15px;
-                font-size: 12px;
+            .filter-section {
+                flex-direction: column;
+            }
+            
+            .filter-section input, .filter-section select {
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            table {
+                font-size: 11px;
+            }
+            
+            th, td {
+                padding: 4px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🌾 Stardew Valley Guide 🌾</h1>
+        <h1>🌾 Stardew Valley Ultimate Guide (1.6 Updated) 🌾</h1>
         
-        <!-- Cute Junimo -->
+        <!-- Interactive Junimo -->
         <div style="text-align: center; margin: 20px 0;">
-            <svg width="80" height="60" viewBox="0 0 80 60" style="filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));">
-                <!-- Junimo body -->
-                <ellipse cx="40" cy="35" rx="25" ry="20" fill="#4a90e2" opacity="0.9"/>
+            <svg width="80" height="60" viewBox="0 0 80 60" style="cursor: pointer;" onclick="junimoClick()">
+                <ellipse id="junimoBody" cx="40" cy="35" rx="25" ry="20" fill="#4a90e2"/>
                 <ellipse cx="40" cy="32" rx="20" ry="16" fill="#5ba3f5"/>
-                
-                <!-- Junimo face -->
                 <circle cx="33" cy="28" r="3" fill="#2c3e50"/>
                 <circle cx="47" cy="28" r="3" fill="#2c3e50"/>
                 <circle cx="34" cy="27" r="1" fill="white"/>
                 <circle cx="48" cy="27" r="1" fill="white"/>
-                
-                <!-- Junimo mouth -->
-                <path d="M 37 33 Q 40 36 43 33" stroke="#2c3e50" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                
-                <!-- Junimo arms -->
-                <ellipse cx="25" cy="35" rx="6" ry="4" fill="#4a90e2" opacity="0.8"/>
-                <ellipse cx="55" cy="35" rx="6" ry="4" fill="#4a90e2" opacity="0.8"/>
-                
-                <!-- Little sparkles around Junimo -->
-                <circle cx="15" cy="20" r="1" fill="#ffd700" opacity="0.8"/>
-                <circle cx="65" cy="25" r="1" fill="#ffd700" opacity="0.8"/>
-                <circle cx="20" cy="45" r="1" fill="#ffd700" opacity="0.8"/>
-                <circle cx="60" cy="45" r="1" fill="#ffd700" opacity="0.8"/>
-                
-                <!-- Star sparkles -->
-                <text x="12" y="18" font-size="8" fill="#ffd700" opacity="0.7">✦</text>
-                <text x="67" y="28" font-size="6" fill="#ffd700" opacity="0.7">✦</text>
+                <path d="M 37 33 Q 40 36 43 33" stroke="#2c3e50" stroke-width="1.5" fill="none"/>
+                <text id="heart" x="40" y="15" font-size="16" fill="#ff69b4" opacity="0" text-anchor="middle">💖</text>
             </svg>
-            <p style="font-size: 12px; color: #666; margin-top: 8px; font-style: italic;">Your helpful guide to relationships and fishing! 🍎🎣</p>
+            <p id="junimoText" style="font-size: 12px; color: #666;">Your complete valley companion! 🍎🎣 (Click me!)</p>
         </div>
 
         <!-- Tab Navigation -->
         <div class="tab-container">
-            <button class="tab-button active" onclick="showTab('characters')">👥 Characters</button>
-            <button class="tab-button" onclick="showTab('fishing')">🎣 Fish Guide</button>
-            <button class="tab-button" onclick="showTab('fishponds')">🏞️ Fish Ponds</button>
+            <button class="tab-button characters-tab" onclick="showTab('characters')">👥 Characters</button>
+            <button class="tab-button fishing-tab" onclick="showTab('fishing')">🎣 Fish Guide</button>
+            <button class="tab-button ponds-tab" onclick="showTab('ponds')">🏞️ Fish Ponds</button>
+            <button class="tab-button crops-tab" onclick="showTab('crops')">🌽 Crops & Profit</button>
         </div>
         
-        <!-- Characters Tab Content -->
+        <!-- Characters Tab -->
         <div id="characters" class="tab-content active">
+            <h2>👥 Characters & Relationships</h2>
+            
             <div class="filter-section">
-                <div>
-                    <label for="searchInput">Search:</label>
-                    <input type="text" id="searchInput" placeholder="Search by name, gift, or season..." onkeyup="filterTable()">
-                </div>
-                
-                <div>
-                    <label for="seasonFilter">Filter by Birthday Season:</label>
-                    <select id="seasonFilter" onchange="filterTable()">
-                        <option value="">All Seasons</option>
-                        <option value="Spring">Spring</option>
-                        <option value="Summer">Summer</option>
-                        <option value="Fall">Fall</option>
-                        <option value="Winter">Winter</option>
-                    </select>
-                </div>
-                
-                <div>
-                    <label for="marriageFilter">Marriageable:</label>
-                    <select id="marriageFilter" onchange="filterTable()">
-                        <option value="">All</option>
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
-                    </select>
-                </div>
+                <input type="text" placeholder="Search by name or gift..." onkeyup="filterTable('characters-table', this.value, [0,3])">
+                <select onchange="filterTable('characters-table', this.value, [1])">
+                    <option value="">All Seasons</option>
+                    <option value="Spring">Spring Birthdays</option>
+                    <option value="Summer">Summer Birthdays</option>
+                    <option value="Fall">Fall Birthdays</option>
+                    <option value="Winter">Winter Birthdays</option>
+                </select>
+                <select onchange="filterTable('characters-table', this.value, [2])">
+                    <option value="">All Characters</option>
+                    <option value="Yes">Marriageable Only</option>
+                    <option value="No">Non-Marriageable</option>
+                </select>
             </div>
 
-            <table id="charactersTable">
+            <table id="characters-table">
                 <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Birthday</th>
-                        <th>Marriageable</th>
-                        <th>Loved Gifts</th>
-                        <th>Schedule (General)</th>
-                    </tr>
+                    <tr><th>Name</th><th>Birthday</th><th>Marriageable</th><th>Loved Gifts</th><th>Schedule</th></tr>
                 </thead>
                 <tbody>
-                <!-- Marriageable Characters -->
-                <tr class="marriageable">
-                    <td><strong>🗡️ Abigail</strong></td>
-                    <td>Fall 13</td>
-                    <td>Yes</td>
-                    <td class="gifts-cell">Amethyst, Banana Pudding, Blackberry Cobbler, Chocolate Cake, Pufferfish, Pumpkin, Spicy Eel</td>
-                    <td class="schedule-cell">Usually at Pierre's shop or her room, visits graveyard on rainy days, goes to mines area sometimes</td>
-                </tr>
-                <tr class="marriageable">
-                    <td><strong>🏈 Alex</strong></td>
-                    <td>Summer 13</td>
-                    <td>Yes</td>
-                    <td class="gifts-cell">Complete Breakfast, Salmon Dinner</td>
-                    <td class="schedule-cell">Beach in summer, gridball field, Gus's saloon in evenings, his house</td>
-                </tr>
-                <tr class="marriageable">
-                    <td><strong>📝 Elliott</strong></td>
-                    <td>Fall 5</td>
-                    <td>Yes</td>
-                    <td class="gifts-cell">Crab Cakes, Duck Feather, Lobster, Pomegranate, Tom Kha Soup</td>
-                    <td class="schedule-cell">His cabin on the beach, Stardrop Saloon, library, beach walks</td>
-                </tr>
-                <tr class="marriageable">
-                    <td><strong>✨ Emily</strong></td>
-                    <td>Spring 27</td>
-                    <td>Yes</td>
-                    <td class="gifts-cell">Amethyst, Aquamarine, Cloth, Emerald, Jade, Ruby, Survival Burger, Topaz, Wool</td>
-                    <td class="schedule-cell">Stardrop Saloon (works Fri-Sat), home, visits Gus, Sandy in desert sometimes</td>
-                </tr>
-                <tr class="marriageable">
-                    <td><strong>📸 Haley</strong></td>
-                    <td>Spring 14</td>
-                    <td>Yes</td>
-                    <td class="gifts-cell">Coconut, Fruit Salad, Pink Cake, Sunflower</td>
-                    <td class="schedule-cell">Her house, town square, beach (summer), photography around town</td>
-                </tr>
-                <tr class="marriageable">
-                    <td><strong>🩺 Harvey</strong></td>
-                    <td>Winter 14</td>
-                    <td>Yes</td>
-                    <td class="gifts-cell">Coffee, Pickles, Super Meal, Truffle Oil, Wine</td>
-                    <td class="schedule-cell">Medical clinic during work hours, aerobics class Tues/Thurs, home in evenings</td>
-                </tr>
-                <tr class="marriageable">
-                    <td><strong>🎨 Leah</strong></td>
-                    <td>Spring 23</td>
-                    <td>Yes</td>
-                    <td class="gifts-cell">Goat Cheese, Poppyseed Muffin, Salad, Stir Fry, Truffle, Vegetable Medley, Wine</td>
-                    <td class="schedule-cell">Her cottage, foraging in forest, Stardrop Saloon, art around town</td>
-                </tr>
-                <tr class="marriageable">
-                    <td><strong>🔬 Maru</strong></td>
-                    <td>Summer 10</td>
-                    <td>Yes</td>
-                    <td class="gifts-cell">Battery Pack, Cauliflower, Cheese Cauliflower, Diamond, Gold Bar, Iridium Bar, Miner's Treat, Pepper Poppers, Radioactive Bar, Rhubarb Pie, Strawberry</td>
-                    <td class="schedule-cell">Hospital (assists Harvey), home, mountain area, works on inventions</td>
-                </tr>
-                <tr class="marriageable">
-                    <td><strong>📚 Penny</strong></td>
-                    <td>Fall 2</td>
-                    <td>Yes</td>
-                    <td class="gifts-cell">Diamond, Emerald, Melon, Poppy, Poppyseed Muffin, Red Plate, Roots Platter, Sandfish, Tom Kha Soup</td>
-                    <td class="schedule-cell">Trailer with Pam, teaches Vincent & Jas, library, museum, town square</td>
-                </tr>
-                <tr class="marriageable">
-                    <td><strong>🎸 Sam</strong></td>
-                    <td>Summer 17</td>
-                    <td>Yes</td>
-                    <td class="gifts-cell">Cactus Fruit, Maple Bar, Pizza, Tigerseye</td>
-                    <td class="schedule-cell">His house, Sebastian's room, Stardrop Saloon, beach, band practice</td>
-                </tr>
-                <tr class="marriageable">
-                    <td><strong>💻 Sebastian</strong></td>
-                    <td>Winter 10</td>
-                    <td>Yes</td>
-                    <td class="gifts-cell">Frozen Tear, Obsidian, Pumpkin Soup, Sashimi, Void Egg</td>
-                    <td class="schedule-cell">His room (basement), mountain lake, Stardrop Saloon (Fri nights), programming</td>
-                </tr>
-                <tr class="marriageable">
-                    <td><strong>🐔 Shane</strong></td>
-                    <td>Spring 20</td>
-                    <td>Yes</td>
-                    <td class="gifts-cell">Beer, Hot Pepper, Pepper Poppers, Pizza</td>
-                    <td class="schedule-cell">JojaMart (before CC), Stardrop Saloon evenings, Marnie's ranch, coop area</td>
-                </tr>
-                
-                <!-- Non-marriageable Characters -->
-                <tr>
-                    <td><strong>🌱 Caroline</strong></td>
-                    <td>Winter 7</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Fish Taco, Green Tea, Summer Spangle, Tropical Curry</td>
-                    <td class="schedule-cell">Pierre's shop, her house, sunroom, aerobics class Tues/Thurs</td>
-                </tr>
-                <tr>
-                    <td><strong>🔨 Clint</strong></td>
-                    <td>Winter 26</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Amethyst, Aquamarine, Artichoke Dip, Emerald, Fiddlehead Risotto, Gold Bar, Iridium Bar, Jade, Omni Geode, Ruby, Topaz</td>
-                    <td class="schedule-cell">Blacksmith shop during work hours, Stardrop Saloon evenings, home</td>
-                </tr>
-                <tr>
-                    <td><strong>🧪 Demetrius</strong></td>
-                    <td>Summer 19</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Bean Hotpot, Ice Cream, Rice Pudding, Strawberry</td>
-                    <td class="schedule-cell">His house, lab area, mountain, research around valley</td>
-                </tr>
-                <tr>
-                    <td><strong>⛏️ Dwarf</strong></td>
-                    <td>Summer 22</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Amethyst, Aquamarine, Emerald, Jade, Lemon Stone, Omni Geode, Ruby, Topaz</td>
-                    <td class="schedule-cell">Always in mines (Level 20), shop area</td>
-                </tr>
-                <tr>
-                    <td><strong>👵 Evelyn</strong></td>
-                    <td>Winter 20</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Beet, Chocolate Cake, Diamond, Fairy Rose, Stuffing, Tulip Bulb</td>
-                    <td class="schedule-cell">Her house with George, garden, town square, visits graves</td>
-                </tr>
-                <tr>
-                    <td><strong>👴 George</strong></td>
-                    <td>Fall 24</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Fried Mushroom, Leek</td>
-                    <td class="schedule-cell">His house, front porch, rarely travels far from home</td>
-                </tr>
-                <tr>
-                    <td><strong>👨‍🍳 Gus</strong></td>
-                    <td>Summer 8</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Diamond, Escargot, Fish Taco, Orange, Tropical Curry</td>
-                    <td class="schedule-cell">Stardrop Saloon (cooking/serving), briefly outside for supplies</td>
-                </tr>
-                <tr>
-                    <td><strong>👧 Jas</strong></td>
-                    <td>Summer 4</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Ancient Doll, Coconut, Fairy Rose, Pink Cake, Plum Pudding</td>
-                    <td class="schedule-cell">Marnie's ranch, museum for lessons, playground, with Vincent</td>
-                </tr>
-                <tr>
-                    <td><strong>🧘‍♀️ Jodi</strong></td>
-                    <td>Fall 11</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Chocolate Cake, Crispy Bass, Diamond, Eggplant Parmesan, Fried Eel, Pancakes, Rhubarb Pie, Vegetable Medley</td>
-                    <td class="schedule-cell">Her house, Pierre's shop, aerobics class Tues/Thurs, around town</td>
-                </tr>
-                <tr>
-                    <td><strong>🎖️ Kent</strong></td>
-                    <td>Spring 4</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Fiddlehead Risotto, Roasted Hazelnuts</td>
-                    <td class="schedule-cell">His house, town walks, Stardrop Saloon sometimes (after Year 1)</td>
-                </tr>
-                <tr>
-                    <td><strong>👤 Krobus</strong></td>
-                    <td>Winter 1</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Diamond, Iridium Bar, Pumpkin, Void Egg, Void Mayonnaise, Wild Horseradish</td>
-                    <td class="schedule-cell">Always in the sewers, shop area</td>
-                </tr>
-                <tr>
-                    <td><strong>🦜 Leo</strong></td>
-                    <td>Summer 26</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Duck Feather, Mango, Ostrich Egg, Poi</td>
-                    <td class="schedule-cell">Ginger Island initially, then moves around valley, tree house</td>
-                </tr>
-                <tr>
-                    <td><strong>🏛️ Lewis</strong></td>
-                    <td>Spring 7</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Autumn's Bounty, Glazed Yams, Green Tea, Hot Pepper, Vegetable Medley</td>
-                    <td class="schedule-cell">His house, mayor duties around town, visits Marnie secretly</td>
-                </tr>
-                <tr>
-                    <td><strong>🏕️ Linus</strong></td>
-                    <td>Winter 3</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Blueberry Tart, Cactus Fruit, Coconut, Dish o' The Sea, Yam</td>
-                    <td class="schedule-cell">His tent in mountains, foraging around valley, fishing</td>
-                </tr>
-                <tr>
-                    <td><strong>🐄 Marnie</strong></td>
-                    <td>Fall 18</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Diamond, Farmer's Lunch, Pink Cake, Pumpkin Pie</td>
-                    <td class="schedule-cell">Her ranch/shop, feeds animals, aerobics Tues/Thurs, visits Lewis</td>
-                </tr>
-                <tr>
-                    <td><strong>🍺 Pam</strong></td>
-                    <td>Spring 18</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Beer, Cactus Fruit, Glazed Yams, Mead, Pale Ale, Parsnip, Parsnip Soup</td>
-                    <td class="schedule-cell">Trailer, drives bus, Stardrop Saloon most evenings</td>
-                </tr>
-                <tr>
-                    <td><strong>🛒 Pierre</strong></td>
-                    <td>Spring 26</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Fried Calamari, Fried Calamari</td>
-                    <td class="schedule-cell">His shop during business hours, home, sometimes away on Wednesdays</td>
-                </tr>
-                <tr>
-                    <td><strong>🔨 Robin</strong></td>
-                    <td>Fall 21</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Goat Cheese, Peach, Spaghetti</td>
-                    <td class="schedule-cell">Carpenter shop, home, aerobics Tues/Thurs, building projects</td>
-                </tr>
-                <tr>
-                    <td><strong>👦 Vincent</strong></td>
-                    <td>Spring 10</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Cranberry Candy, Ginger Ale, Grape, Pink Cake, Snail</td>
-                    <td class="schedule-cell">His house, museum for lessons, playground, with Jas, around town</td>
-                </tr>
-                <tr>
-                    <td><strong>🎣 Willy</strong></td>
-                    <td>Summer 24</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Catfish, Diamond, Iridium Bar, Mead, Octopus, Pumpkin, Sea Cucumber, Sturgeon</td>
-                    <td class="schedule-cell">Fish shop, pier, beach fishing, boat maintenance</td>
-                </tr>
-                <tr>
-                    <td><strong>🧙‍♂️ Wizard</strong></td>
-                    <td>Winter 17</td>
-                    <td>No</td>
-                    <td class="gifts-cell">Purple Mushroom, Solar Essence, Super Cucumber, Void Essence</td>
-                    <td class="schedule-cell">Always in his tower, magical research and studies</td>
-                </tr>
+                    <tr class="marriageable"><td><strong>🗡️ Abigail</strong></td><td>Fall 13</td><td>Yes</td><td>Amethyst, Chocolate Cake, Pufferfish, Spicy Eel</td><td>Pierre's shop, graveyard visits, mines area</td></tr>
+                    <tr class="marriageable"><td><strong>🏈 Alex</strong></td><td>Summer 13</td><td>Yes</td><td>Complete Breakfast, Salmon Dinner</td><td>Beach, gridball field, Stardrop Saloon</td></tr>
+                    <tr class="marriageable"><td><strong>📝 Elliott</strong></td><td>Fall 5</td><td>Yes</td><td>Crab Cakes, Duck Feather, Lobster, Pomegranate</td><td>Beach cabin, library, Stardrop Saloon</td></tr>
+                    <tr class="marriageable"><td><strong>✨ Emily</strong></td><td>Spring 27</td><td>Yes</td><td>Amethyst, Cloth, Emerald, Ruby, Wool</td><td>Stardrop Saloon (Fri-Sat), home, desert visits</td></tr>
+                    <tr class="marriageable"><td><strong>📸 Haley</strong></td><td>Spring 14</td><td>Yes</td><td>Coconut, Pink Cake, Sunflower</td><td>House, town square, beach photography</td></tr>
+                    <tr class="marriageable"><td><strong>🩺 Harvey</strong></td><td>Winter 14</td><td>Yes</td><td>Coffee, Pickles, Truffle Oil, Wine</td><td>Medical clinic, aerobics class</td></tr>
+                    <tr class="marriageable"><td><strong>🎨 Leah</strong></td><td>Spring 23</td><td>Yes</td><td>Goat Cheese, Salad, Truffle, Wine</td><td>Cottage, forest foraging, art around town</td></tr>
+                    <tr class="marriageable"><td><strong>🔬 Maru</strong></td><td>Summer 10</td><td>Yes</td><td>Battery Pack, Gold Bar, Iridium Bar, Strawberry</td><td>Hospital, home, mountain inventions</td></tr>
+                    <tr class="marriageable"><td><strong>📚 Penny</strong></td><td>Fall 2</td><td>Yes</td><td>Diamond, Emerald, Poppy, Tom Kha Soup</td><td>Trailer, teaches kids, library, museum</td></tr>
+                    <tr class="marriageable"><td><strong>🎸 Sam</strong></td><td>Summer 17</td><td>Yes</td><td>Cactus Fruit, Pizza, Tigerseye</td><td>House, Sebastian's room, beach, band practice</td></tr>
+                    <tr class="marriageable"><td><strong>💻 Sebastian</strong></td><td>Winter 10</td><td>Yes</td><td>Frozen Tear, Obsidian, Sashimi, Void Egg</td><td>Basement room, mountain lake, programming</td></tr>
+                    <tr class="marriageable"><td><strong>🐔 Shane</strong></td><td>Spring 20</td><td>Yes</td><td>Beer, Hot Pepper, Pepper Poppers, Pizza</td><td>JojaMart, Stardrop Saloon, Marnie's ranch</td></tr>
+                    <tr><td><strong>🌱 Caroline</strong></td><td>Winter 7</td><td>No</td><td>Fish Taco, Green Tea, Summer Spangle</td><td>Pierre's shop, sunroom, aerobics</td></tr>
+                    <tr><td><strong>🔨 Clint</strong></td><td>Winter 26</td><td>No</td><td>Amethyst, Emerald, Gold Bar, Jade, Ruby</td><td>Blacksmith shop, Stardrop Saloon evenings</td></tr>
+                    <tr><td><strong>🧪 Demetrius</strong></td><td>Summer 19</td><td>No</td><td>Bean Hotpot, Ice Cream, Strawberry</td><td>House, lab area, mountain research</td></tr>
+                    <tr><td><strong>👵 Evelyn</strong></td><td>Winter 20</td><td>No</td><td>Chocolate Cake, Diamond, Fairy Rose, Tulip Bulb</td><td>House with George, garden, town square</td></tr>
+                    <tr><td><strong>👴 George</strong></td><td>Fall 24</td><td>No</td><td>Fried Mushroom, Leek</td><td>House, front porch</td></tr>
+                    <tr><td><strong>👨‍🍳 Gus</strong></td><td>Summer 8</td><td>No</td><td>Diamond, Fish Taco, Orange</td><td>Stardrop Saloon cooking/serving</td></tr>
+                    <tr><td><strong>👧 Jas</strong></td><td>Summer 4</td><td>No</td><td>Fairy Rose, Pink Cake</td><td>Marnie's ranch, museum lessons, playground</td></tr>
+                    <tr><td><strong>🧘‍♀️ Jodi</strong></td><td>Fall 11</td><td>No</td><td>Chocolate Cake, Diamond, Rhubarb Pie</td><td>House, Pierre's shop, aerobics</td></tr>
+                    <tr><td><strong>🎖️ Kent</strong></td><td>Spring 4</td><td>No</td><td>Fiddlehead Risotto, Roasted Hazelnuts</td><td>House, town walks (appears Year 2)</td></tr>
+                    <tr><td><strong>🏛️ Lewis</strong></td><td>Spring 7</td><td>No</td><td>Autumn's Bounty, Green Tea, Hot Pepper</td><td>Mayor house, duties around town</td></tr>
+                    <tr><td><strong>🏕️ Linus</strong></td><td>Winter 3</td><td>No</td><td>Blueberry Tart, Cactus Fruit, Yam</td><td>Mountain tent, foraging, fishing</td></tr>
+                    <tr><td><strong>🐄 Marnie</strong></td><td>Fall 18</td><td>No</td><td>Diamond, Pink Cake, Pumpkin Pie</td><td>Ranch/shop, feeds animals, aerobics</td></tr>
+                    <tr><td><strong>🍺 Pam</strong></td><td>Spring 18</td><td>No</td><td>Beer, Cactus Fruit, Mead, Pale Ale</td><td>Trailer, drives bus, Stardrop Saloon</td></tr>
+                    <tr><td><strong>🛒 Pierre</strong></td><td>Spring 26</td><td>No</td><td>Fried Calamari</td><td>General Store, home</td></tr>
+                    <tr><td><strong>🔨 Robin</strong></td><td>Fall 21</td><td>No</td><td>Goat Cheese, Peach, Spaghetti</td><td>Carpenter shop, aerobics, building projects</td></tr>
+                    <tr><td><strong>👦 Vincent</strong></td><td>Spring 10</td><td>No</td><td>Cranberry Candy, Grape, Pink Cake, Snail</td><td>House, museum lessons, playground</td></tr>
+                    <tr><td><strong>🎣 Willy</strong></td><td>Summer 24</td><td>No</td><td>Catfish, Diamond, Octopus, Sturgeon</td><td>Fish shop, pier, beach fishing</td></tr>
+                    <tr><td><strong>🧙‍♂️ Wizard</strong></td><td>Winter 17</td><td>No</td><td>Purple Mushroom, Solar Essence, Void Essence</td><td>Wizard tower, magical research</td></tr>
                 </tbody>
             </table>
             
-            <div class="legend">
-                <h3>Character Legend & Notes:</h3>
-                <p><strong>Pink rows:</strong> Marriageable characters</p>
-                <p><strong>Schedule Notes:</strong> Schedules can vary by season, weather, and story progression. This shows general patterns.</p>
-                <p><strong>Gifts:</strong> These are "loved" gifts that give maximum friendship points. Most characters also have "liked" gifts.</p>
-                <p><strong>Special Characters:</strong> Some characters like Kent don't appear until Year 2, Leo requires Ginger Island progress.</p>
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin-top: 20px;">
+                <h3>Character Guide Tips:</h3>
+                <p><strong>Pink rows:</strong> Marriageable characters • <strong>Loved gifts:</strong> Give maximum friendship points (80) • <strong>Birthdays:</strong> Triple friendship points on birthday gifts!</p>
             </div>
         </div>
 
-        <!-- Fish Guide Tab Content - Simplified for now -->
+        <!-- Fish Guide Tab -->
         <div id="fishing" class="tab-content">
-            <h2>🎣 Fish Guide Coming Soon</h2>
-            <p>Fish guide with all locations, seasons, and Community Center bundles will be restored here.</p>
+            <h2>🎣 Complete Fish Guide (1.6 Updated)</h2>
+            
+            <div class="filter-section">
+                <input type="text" placeholder="Search fish, location, or bundle..." onkeyup="filterTable('fish-table', this.value, [0,1,7])">
+                <select onchange="filterTable('fish-table', this.value, [2])">
+                    <option value="">All Seasons</option>
+                    <option value="Spring">Spring</option>
+                    <option value="Summer">Summer</option>
+                    <option value="Fall">Fall</option>
+                    <option value="Winter">Winter</option>
+                    <option value="All Year">All Year</option>
+                </select>
+                <select onchange="filterTable('fish-table', this.value, [4])">
+                    <option value="">Any Weather</option>
+                    <option value="Rain">Rain Only</option>
+                    <option value="Sunny">Sunny Only</option>
+                    <option value="Any">Any Weather</option>
+                </select>
+                <select onchange="filterTable('fish-table', this.value, [7])">
+                    <option value="">All Fish</option>
+                    <option value="Bundle">Community Center</option>
+                    <option value="Legendary">Legendary</option>
+                </select>
+            </div>
+
+            <table id="fish-table">
+                <thead>
+                    <tr><th>Fish</th><th>Location</th><th>Season</th><th>Time</th><th>Weather</th><th>Level</th><th>Value</th><th>Bundle/Special</th></tr>
+                </thead>
+                <tbody>
+                    <!-- Community Center Bundle Fish -->
+                    <tr class="community-center"><td><strong>🐟 Sunfish</strong></td><td>River</td><td>Spring, Summer</td><td>6am-7pm</td><td>Sunny</td><td>0</td><td>30g</td><td>River Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🐱 Catfish</strong></td><td>River, Secret Woods</td><td>Spring, Fall, Winter</td><td>6am-12am</td><td>Rain</td><td>0</td><td>200g</td><td>River Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🐟 Shad</strong></td><td>River</td><td>Spring, Summer, Fall</td><td>9pm-2am</td><td>Rain</td><td>0</td><td>60g</td><td>River Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🎣 Tiger Trout</strong></td><td>River</td><td>Fall, Winter</td><td>6am-7pm</td><td>Any</td><td>0</td><td>150g</td><td>River Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🐟 Largemouth Bass</strong></td><td>Mountain Lake</td><td>All Year</td><td>6am-7pm</td><td>Any</td><td>0</td><td>100g</td><td>Lake Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🐟 Carp</strong></td><td>Mountain Lake, Sewers</td><td>All Year</td><td>Any</td><td>Any</td><td>0</td><td>30g</td><td>Lake Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🐟 Bullhead</strong></td><td>Mountain Lake</td><td>All Year</td><td>Any</td><td>Any</td><td>0</td><td>75g</td><td>Lake Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🐟 Sturgeon</strong></td><td>Mountain Lake</td><td>Summer, Winter</td><td>6am-7pm</td><td>Any</td><td>6</td><td>200g</td><td>Lake Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🐟 Sardine</strong></td><td>Ocean</td><td>Spring, Fall, Winter</td><td>6am-7pm</td><td>Any</td><td>0</td><td>40g</td><td>Ocean Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🐟 Tuna</strong></td><td>Ocean</td><td>Summer, Winter</td><td>6am-7pm</td><td>Any</td><td>7</td><td>100g</td><td>Ocean Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🐟 Red Snapper</strong></td><td>Ocean</td><td>Summer, Fall</td><td>6am-7pm</td><td>Rain</td><td>0</td><td>50g</td><td>Ocean Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🐟 Tilapia</strong></td><td>Ocean</td><td>Summer, Fall</td><td>6am-2pm</td><td>Any</td><td>0</td><td>75g</td><td>Ocean Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🐟 Walleye</strong></td><td>River, Lake, Forest Pond</td><td>Fall, Winter</td><td>12pm-2am</td><td>Rain</td><td>0</td><td>105g</td><td>Night Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🐟 Bream</strong></td><td>River</td><td>All Year</td><td>6pm-2am</td><td>Any</td><td>0</td><td>45g</td><td>Night Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🪱 Eel</strong></td><td>Ocean</td><td>Spring, Fall</td><td>4pm-2am</td><td>Rain</td><td>0</td><td>85g</td><td>Night Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🐡 Pufferfish</strong></td><td>Ocean</td><td>Summer</td><td>12pm-4pm</td><td>Sunny</td><td>0</td><td>200g</td><td>Specialty Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>👻 Ghostfish</strong></td><td>Mines (Level 20/60)</td><td>All Year</td><td>Any</td><td>Any</td><td>0</td><td>45g</td><td>Specialty Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🏜️ Sandfish</strong></td><td>Desert</td><td>All Year</td><td>6am-8pm</td><td>Any</td><td>0</td><td>75g</td><td>Specialty Fish Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🌲 Woodskip</strong></td><td>Secret Woods</td><td>All Year</td><td>Any</td><td>Any</td><td>0</td><td>75g</td><td>Specialty Fish Bundle</td></tr>
+                    
+                    <!-- Original Legendary Fish -->
+                    <tr class="legendary"><td><strong>👑 Legend</strong></td><td>Mountain Lake (near log)</td><td>Spring</td><td>6am-8pm</td><td>Rain</td><td>10</td><td>5000g</td><td>Legendary</td></tr>
+                    <tr class="legendary"><td><strong>🔴 Crimsonfish</strong></td><td>Ocean (East Pier)</td><td>Summer</td><td>6am-8pm</td><td>Any</td><td>5</td><td>1500g</td><td>Legendary</td></tr>
+                    <tr class="legendary"><td><strong>🎣 Angler</strong></td><td>River (JojaMart bridge)</td><td>Fall</td><td>6am-8pm</td><td>Any</td><td>3</td><td>900g</td><td>Legendary</td></tr>
+                    <tr class="legendary"><td><strong>❄️ Glacierfish</strong></td><td>Cindersap Forest (south)</td><td>Winter</td><td>6am-8pm</td><td>Any</td><td>6</td><td>1000g</td><td>Legendary</td></tr>
+                    <tr class="legendary"><td><strong>☢️ Mutant Carp</strong></td><td>Sewers</td><td>All Year</td><td>Any</td><td>Any</td><td>0</td><td>1000g</td><td>Legendary</td></tr>
+                    
+                    <!-- Extended Family Legendary Fish (1.6) -->
+                    <tr class="legendary"><td><strong>👑✨ Legend II</strong></td><td>Mountain Lake (near log)</td><td>Any (Qi Quest Only)</td><td>Any</td><td>Any</td><td>10</td><td>5000g</td><td>Extended Family</td></tr>
+                    <tr class="legendary"><td><strong>🔴⭐ Son of Crimsonfish</strong></td><td>Ocean (East Pier)</td><td>Any (Qi Quest Only)</td><td>Any</td><td>Any</td><td>5</td><td>1500g</td><td>Extended Family</td></tr>
+                    <tr class="legendary"><td><strong>🎣👩 Ms. Angler</strong></td><td>River (JojaMart bridge)</td><td>Any (Qi Quest Only)</td><td>Any</td><td>Any</td><td>3</td><td>900g</td><td>Extended Family</td></tr>
+                    <tr class="legendary"><td><strong>❄️🐠 Glacierfish Jr.</strong></td><td>Cindersap (triangle island)</td><td>Any (Qi Quest Only)</td><td>Any</td><td>Any</td><td>6</td><td>1000g</td><td>Extended Family</td></tr>
+                    <tr class="legendary"><td><strong>☢️🧬 Radioactive Carp</strong></td><td>Sewers</td><td>Any (Qi Quest Only)</td><td>Any</td><td>Any</td><td>0</td><td>1000g</td><td>Extended Family</td></tr>
+                    
+                    <!-- Crab Pot Fish -->
+                    <tr class="community-center"><td><strong>🦀 Crab</strong></td><td>Ocean (Crab Pot)</td><td>All Year</td><td>Any</td><td>Any</td><td>0</td><td>100g</td><td>Crab Pot Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🦞 Lobster</strong></td><td>Ocean (Crab Pot)</td><td>All Year</td><td>Any</td><td>Any</td><td>0</td><td>120g</td><td>Crab Pot Bundle</td></tr>
+                    <tr class="community-center"><td><strong>🍤 Shrimp</strong></td><td>Ocean (Crab Pot)</td><td>All Year</td><td>Any</td><td>Any</td><td>0</td><td>60g</td><td>Crab Pot Bundle</td></tr>
+                    
+                    <!-- High-Value Fish -->
+                    <tr><td><strong>🌋 Lava Eel</strong></td><td>Mines (Level 100)</td><td>All Year</td><td>Any</td><td>Any</td><td>7</td><td>700g</td><td>Best pond fish</td></tr>
+                    <tr><td><strong>🧊 Ice Pip</strong></td><td>Mines (Level 60-100)</td><td>All Year</td><td>Any</td><td>Any</td><td>0</td><td>500g</td><td>Great pond fish</td></tr>
+                    <tr><td><strong>🪨 Stonefish</strong></td><td>Mines (Level 20)</td><td>All Year</td><td>Any</td><td>Any</td><td>0</td><td>300g</td><td>Good pond fish</td></tr>
+                    <tr><td><strong>🥒✨ Super Cucumber</strong></td><td>Ocean</td><td>Summer, Fall</td><td>6pm-2am</td><td>Any</td><td>0</td><td>250g</td><td>Good for ponds</td></tr>
+                    <tr><td><strong>🐙 Octopus</strong></td><td>Ocean</td><td>Summer</td><td>6am-1pm</td><td>Any</td><td>0</td><td>150g</td><td>Summer specialty</td></tr>
+                    <tr><td><strong>🖤 Void Salmon</strong></td><td>Witch's Swamp</td><td>All Year</td><td>Any</td><td>Any</td><td>0</td><td>150g</td><td>Void products</td></tr>
+                </tbody>
+            </table>
+            
+            <div style="background: #f0f8ff; padding: 15px; border-radius: 5px;">
+                <h3>Fish Guide Tips:</h3>
+                <p><strong>Blue rows:</strong> Community Center fish • <strong>Orange rows:</strong> Legendary fish (one per save) • <strong>1.6 Update:</strong> 10 total legendary fish including Extended Family variants</p>
+                <p><strong>Pro Fishing Tips:</strong> Use Trap Bobber for legendary fish • Magic Bait catches any fish regardless of requirements • Iridium Rod + Deluxe Bait for best results</p>
+            </div>
         </div>
 
-        <!-- Fish Ponds Tab Content - Simplified for now -->
-        <div id="fishponds" class="tab-content">
-            <h2>🏞️ Fish Ponds Coming Soon</h2>
-            <p>Fish pond guide with roe values and population rewards will be restored here.</p>
+        <!-- Fish Ponds Tab -->
+        <div id="ponds" class="tab-content">
+            <h2>🏞️ Fish Ponds & Roe Guide (1.6 Updated)</h2>
+            
+            <div class="filter-section">
+                <input type="text" placeholder="Search fish or rewards..." onkeyup="filterTable('pond-table', this.value, [0,3])">
+                <select onchange="filterTable('pond-table', this.value, [0])">
+                    <option value="">All Fish</option>
+                    <option value="Legend">Legendary Fish</option>
+                    <option value="Lava">High-Value Regular</option>
+                    <option value="Crab">Crab Pot Fish</option>
+                </select>
+            </div>
+
+            <table id="pond-table">
+                <thead>
+                    <tr><th>Fish</th><th>Roe Value</th><th>Aged Roe</th><th>Production Rate</th><th>Special Rewards</th><th>Best Use</th></tr>
+                </thead>
+                <tbody>
+                    <!-- NEW 1.6 - Legendary Fish Ponds -->
+                    <tr class="legendary"><td><strong>👑 Legend</strong></td><td>2530g</td><td>5060g</td><td>35% chance every 4-5 days</td><td>Golden pond water, prestige display</td><td>Age for maximum value (rare drops)</td></tr>
+                    <tr class="legendary"><td><strong>👑✨ Legend II</strong></td><td>2530g</td><td>5060g</td><td>35% chance every 4-5 days</td><td>Golden pond water, prestige display</td><td>Age for maximum value (rare drops)</td></tr>
+                    <tr class="legendary"><td><strong>🔴 Crimsonfish</strong></td><td>780g</td><td>1560g</td><td>80% chance every 4-5 days</td><td>Red pond water, good reliability</td><td>Reliable high-value legendary roe</td></tr>
+                    <tr class="legendary"><td><strong>🔴⭐ Son of Crimsonfish</strong></td><td>780g</td><td>1560g</td><td>80% chance every 4-5 days</td><td>Red pond water, good reliability</td><td>Reliable high-value legendary roe</td></tr>
+                    <tr class="legendary"><td><strong>🎣 Angler</strong></td><td>480g</td><td>960g</td><td>100% chance every 4-5 days</td><td>Brown pond water, most reliable</td><td>Most consistent legendary roe</td></tr>
+                    <tr class="legendary"><td><strong>🎣👩 Ms. Angler</strong></td><td>480g</td><td>960g</td><td>100% chance every 4-5 days</td><td>Brown pond water, most reliable</td><td>Most consistent legendary roe</td></tr>
+                    <tr class="legendary"><td><strong>❄️ Glacierfish</strong></td><td>530g</td><td>1060g</td><td>100% chance every 4-5 days</td><td>Blue pond water, reliable</td><td>Good legendary option</td></tr>
+                    <tr class="legendary"><td><strong>❄️🐠 Glacierfish Jr.</strong></td><td>530g</td><td>1060g</td><td>100% chance every 4-5 days</td><td>Blue pond water, reliable</td><td>Good legendary option</td></tr>
+                    <tr class="legendary"><td><strong>☢️ Mutant Carp</strong></td><td>530g</td><td>1060g</td><td>100% chance every 4-5 days</td><td>Green pond water, sewer fish</td><td>Accessible legendary option</td></tr>
+                    <tr class="legendary"><td><strong>☢️🧬 Radioactive Carp</strong></td><td>530g</td><td>1060g</td><td>100% chance every 4-5 days</td><td>Green pond water, sewer fish</td><td>Accessible legendary option</td></tr>
+                    
+                    <!-- Best Regular Fish for Ponds -->
+                    <tr class="high-profit"><td><strong>🌋 Lava Eel</strong></td><td>380g</td><td>760g</td><td>Daily production</td><td>Pop 7: Magma Geode, Gold Ore, Fire Quartz</td><td>Best non-legendary daily income</td></tr>
+                    <tr class="high-profit"><td><strong>🧊 Ice Pip</strong></td><td>275g</td><td>550g</td><td>Daily production</td><td>Pop 9: Diamond (2%), Frozen Geode</td><td>Great alternative to Lava Eel</td></tr>
+                    <tr class="high-profit"><td><strong>🪨 Stonefish</strong></td><td>175g</td><td>350g</td><td>Daily production</td><td>Pop 9: Diamond (2%), Geodes</td><td>Excellent early-game choice</td></tr>
+                    <tr class="high-profit"><td><strong>🥒✨ Super Cucumber</strong></td><td>150g</td><td>300g</td><td>Daily production</td><td>Pop 9: Amethyst (25%), Iridium Ore</td><td>Good ocean alternative</td></tr>
+                    <tr><td><strong>🐟 Sturgeon</strong></td><td>125g</td><td>Caviar (500g)</td><td>Daily production</td><td>Pop 5: Omni Geode</td><td>Makes valuable Caviar instead of aged roe</td></tr>
+                    <tr><td><strong>🌈 Rainbow Trout</strong></td><td>45g</td><td>90g</td><td>Daily production</td><td>Pop 5: Prismatic Shard (0.4%)</td><td>Keep for rare Prismatic Shard drops!</td></tr>
+                    
+                    <!-- Crab Pot Fish -->
+                    <tr><td><strong>🦞 Lobster</strong></td><td>70g</td><td>140g</td><td>Daily production</td><td>Pop 5: Magnet (20%)</td><td>Steady income, easy to get</td></tr>
+                    <tr><td><strong>🦀 Crab</strong></td><td>60g</td><td>120g</td><td>Daily production</td><td>Pop 5: Magnet (20%)</td><td>Reliable basic income</td></tr>
+                    <tr><td><strong>🐙 Octopus</strong></td><td>90g</td><td>180g</td><td>Daily production</td><td>Pop 5: Omni Geode</td><td>Good summer ocean fish</td></tr>
+                </tbody>
+            </table>
+            
+            <div style="background: #e6f7ff; padding: 15px; border-radius: 5px;">
+                <h3>🆕 Fish Pond Guide (1.6 Updates):</h3>
+                <p><strong>Legendary Fish Ponds:</strong> NEW in 1.6! Each legendary fish creates unique colored pond water and produces valuable roe</p>
+                <p><strong>Roe Formula:</strong> 30 + (fish base price ÷ 2) • <strong>Aged Roe:</strong> Always 2x base roe value • <strong>Caviar:</strong> Sturgeon roe aged = 500g</p>
+                <p><strong>Best Strategies:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>🌋 Lava Eel:</strong> Best daily income (760g aged roe daily)</li>
+                    <li><strong>👑 Legend ponds:</strong> Prestige + occasional huge payouts (5060g aged roe)</li>
+                    <li><strong>🎣 Angler ponds:</strong> Most reliable legendary option (100% roe chance)</li>
+                    <li><strong>🌈 Rainbow Trout:</strong> Farm for rare Prismatic Shards</li>
+                    <li><strong>Golden Animal Crackers:</strong> Double all roe production</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Crops Tab -->
+        <div id="crops" class="tab-content">
+            <h2>🌽 Complete Crops & Profit Guide (1.6 Updated)</h2>
+            
+            <div class="filter-section">
+                <input type="text" placeholder="Search crops..." onkeyup="filterTable('crop-table', this.value, [0,1])">
+                <select onchange="filterTable('crop-table', this.value, [1])">
+                    <option value="">All Seasons</option>
+                    <option value="Spring">Spring</option>
+                    <option value="Summer">Summer</option>
+                    <option value="Fall">Fall</option>
+                    <option value="Winter">Winter</option>
+                </select>
+                <select onchange="filterTable('crop-table', this.value, [6])">
+                    <option value="">All Types</option>
+                    <option value="Multi">Multi-Harvest</option>
+                    <option value="Single">Single Harvest</option>
+                    <option value="Tree">Fruit Trees</option>
+                </select>
+            </div>
+
+            <table id="crop-table">
+                <thead>
+                    <tr><th>Crop</th><th>Season</th><th>Seed Cost</th><th>Sell Value</th><th>Growth Time</th><th>Profit/Day</th><th>Type</th><th>Notes</th></tr>
+                </thead>
+                <tbody>
+                    <!-- 🆕 NEW 1.6 CROPS -->
+                    <tr class="high-profit"><td><strong>🥕 Carrot</strong></td><td>Spring</td><td>Found in artifact spots</td><td>35g</td><td>3 days</td><td>11.7g</td><td>Single</td><td>🆕 NEW! High energy (75), feeds horses for speed boost</td></tr>
+                    <tr class="high-profit multi-harvest"><td><strong>🍃 Summer Squash</strong></td><td>Summer</td><td>Found in artifact spots</td><td>45g</td><td>6 days, then every 3</td><td>15g+</td><td>Multi</td><td>🆕 NEW! Regrows every 3 days, high energy (63)</td></tr>
+                    <tr class="multi-harvest"><td><strong>🥦 Broccoli</strong></td><td>Fall</td><td>Found in artifact spots</td><td>70g</td><td>8 days, then every 4</td><td>17.5g</td><td>Multi</td><td>🆕 NEW! Good fall multi-harvest</td></tr>
+                    <tr class="high-profit"><td><strong>🍈 Powdermelon</strong></td><td>Winter</td><td>Found in artifact spots</td><td>300g</td><td>7 days</td><td>42.9g</td><td>Single</td><td>🆕 NEW! Winter crop! Can become giant crop</td></tr>
+                    
+                    <!-- Top Profit Crops -->
+                    <tr class="high-profit multi-harvest"><td><strong>🍇 Ancient Fruit</strong></td><td>Spring/Summer/Fall</td><td>Ancient Seeds (artifact)</td><td>550g</td><td>28 days, then every 7</td><td>78.6g</td><td>Multi</td><td>BEST long-term profit, grows 3 seasons</td></tr>
+                    <tr class="high-profit"><td><strong>⭐ Starfruit</strong></td><td>Summer</td><td>400g (Desert)</td><td>750g</td><td>13 days</td><td>26.9g</td><td>Single</td><td>BEST summer single-harvest profit</td></tr>
+                    <tr class="high-profit"><td><strong>🍠 Sweet Gem Berry</strong></td><td>Fall</td><td>1000g (Rare Seeds)</td><td>3000g</td><td>24 days</td><td>83.3g</td><td>Single</td><td>HIGHEST single value crop</td></tr>
+                    <tr class="high-profit multi-harvest"><td><strong>🍇 Cranberry</strong></td><td>Fall</td><td>240g</td><td>75g (2x harvest)</td><td>7 days, then every 5</td><td>30g+</td><td>Multi</td><td>BEST fall multi-harvest (2 berries per plant)</td></tr>
+                    <tr class="high-profit multi-harvest"><td><strong>🫐 Blueberry</strong></td><td>Summer</td><td>80g</td><td>50g (3x harvest)</td><td>13 days, then every 4</td><td>25g+</td><td>Multi</td><td>BEST summer multi-harvest (3 berries per plant)</td></tr>
+                    <tr class="high-profit multi-harvest"><td><strong>🍓 Strawberry</strong></td><td>Spring</td><td>100g (Egg Festival)</td><td>120g</td><td>8 days, then every 4</td><td>20g+</td><td>Multi</td><td>BEST spring crop if bought early at festival</td></tr>
+                    
+                    <!-- Regular Crops by Season -->
+                    <tr><td><strong>🌸 Cauliflower</strong></td><td>Spring</td><td>80g</td><td>175g</td><td>12 days</td><td>7.9g</td><td>Single</td><td>Can become giant crop (3x3)</td></tr>
+                    <tr><td><strong>🥔 Parsnip</strong></td><td>Spring</td><td>20g</td><td>35g</td><td>4 days</td><td>3.8g</td><td>Single</td><td>Starter crop, Spring Bundle</td></tr>
+                    <tr><td><strong>🥬 Kale</strong></td><td>Spring</td><td>70g</td><td>110g</td><td>6 days</td><td>6.7g</td><td>Single</td><td>Spring Bundle</td></tr>
+                    <tr><td><strong>🥔 Potato</strong></td><td>Spring</td><td>50g</td><td>80g</td><td>6 days</td><td>5g</td><td>Single</td><td>Can yield multiple potatoes</td></tr>
+                    <tr class="multi-harvest"><td><strong>☕ Coffee Bean</strong></td><td>Spring, Summer</td><td>2500g (Traveling Cart)</td><td>15g each</td><td>10 days, then every 2</td><td>20g+</td><td>Multi</td><td>Process into coffee for huge profits</td></tr>
+                    
+                    <tr class="multi-harvest"><td><strong>🍅 Tomato</strong></td><td>Summer</td><td>50g</td><td>60g</td><td>11 days, then every 4</td><td>7.3g</td><td>Multi</td><td>Summer Bundle</td></tr>
+                    <tr class="multi-harvest"><td><strong>🌶️ Hot Pepper</strong></td><td>Summer</td><td>40g</td><td>40g</td><td>5 days, then every 3</td><td>15g+</td><td>Multi</td><td>Summer Bundle, regrows fast</td></tr>
+                    <tr><td><strong>🍈 Melon</strong></td><td>Summer</td><td>80g</td><td>250g</td><td>12 days</td><td>14.2g</td><td>Single</td><td>Can become giant crop, Summer Bundle</td></tr>
+                    <tr><td><strong>🍉 Watermelon</strong></td><td>Summer</td><td>100g</td><td>250g</td><td>12 days</td><td>12.5g</td><td>Single</td><td>Summer Bundle</td></tr>
+                    <tr class="multi-harvest"><td><strong>🌽 Corn</strong></td><td>Summer, Fall</td><td>150g</td><td>50g</td><td>14 days, then every 4</td><td>8.9g</td><td>Multi</td><td>Two-season crop</td></tr>
+                    
+                    <tr class="high-profit"><td><strong>🎃 Pumpkin</strong></td><td>Fall</td><td>100g</td><td>320g</td><td>13 days</td><td>16.9g</td><td>Single</td><td>Can become giant crop, Fall Bundle</td></tr>
+                    <tr class="multi-harvest"><td><strong>🍆 Eggplant</strong></td><td>Fall</td><td>20g</td><td>60g</td><td>5 days, then every 5</td><td>8g</td><td>Multi</td><td>Fall Bundle</td></tr>
+                    <tr><td><strong>🌾 Wheat</strong></td><td>Summer, Fall</td><td>10g</td><td>25g</td><td>4 days</td><td>3.8g</td><td>Single</td><td>Fall Bundle, makes flour</td></tr>
+                    <tr><td><strong>🥤 Beet</strong></td><td>Fall</td><td>20g</td><td>100g</td><td>6 days</td><td>13.3g</td><td>Single</td><td>Fall Bundle, makes sugar</td></tr>
+                    
+                    <!-- Fruit Trees -->
+                    <tr class="high-profit"><td><strong>🍎 Apple Tree</strong></td><td>Fall (daily after mature)</td><td>4000g</td><td>100g daily</td><td>28 days to mature</td><td>25g+ long-term</td><td>Tree</td><td>Artisan Bundle, plant early!</td></tr>
+                    <tr class="high-profit"><td><strong>🍑 Cherry Tree</strong></td><td>Spring (daily after mature)</td><td>3400g</td><td>80g daily</td><td>28 days to mature</td><td>22g+ long-term</td><td>Tree</td><td>Artisan Bundle</td></tr>
+                    <tr class="high-profit"><td><strong>🍊 Orange Tree</strong></td><td>Summer (daily after mature)</td><td>4000g</td><td>100g daily</td><td>28 days to mature</td><td>25g+ long-term</td><td>Tree</td><td>Artisan Bundle</td></tr>
+                    <tr class="high-profit"><td><strong>🍑 Peach Tree</strong></td><td>Summer (daily after mature)</td><td>6000g</td><td>140g daily</td><td>28 days to mature</td><td>35g+ long-term</td><td>Tree</td><td>Most valuable fruit tree</td></tr>
+                    <tr class="high-profit"><td><strong>🥭 Mango Tree</strong></td><td>Summer (Ginger Island only)</td><td>75 Golden Walnuts</td><td>130g daily</td><td>28 days to mature</td><td>32g+ long-term</td><td>Tree</td><td>Ginger Island exclusive</td></tr>
+                </tbody>
+            </table>
+            
+            <div style="background: #f0fff0; padding: 15px; border-radius: 5px;">
+                <h3>🌱 Crops Profit Guide & 1.6 Updates:</h3>
+                <p><strong>🆕 NEW 1.6 Crops:</strong> Four new seasonal crops - Carrot, Summer Squash, Broccoli, Powdermelon. Seeds found in artifact spots, not sold in stores!</p>
+                <p><strong>Color Guide:</strong> Green = High profit (20g+ per day) • Orange = Multi-harvest (keeps producing) • Regular = Single harvest</p>
+                <p><strong>💰 Top Profit Strategies:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Early Game:</strong> 🥕 Carrots (Spring), 🍃 Summer Squash, 🍈 Powdermelon (Winter!)</li>
+                    <li><strong>Mid Game:</strong> 🍓 Strawberries → 🫐 Blueberries → 🍇 Cranberries seasonal rotation</li>
+                    <li><strong>End Game:</strong> 🍇 Ancient Fruit (best long-term) + ⭐ Starfruit (summer)</li>
+                    <li><strong>Artisan Processing:</strong> Wine = 3x crop value, Jelly = 2x + 50g</li>
+                </ul>
+                <p><strong>🎯 1.6 Pro Tips:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>🥕 Carrots give 33 XP (vs 8 for parsnips) - level farming super fast!</li>
+                    <li>🍃 Summer Squash regrows every 3 days - better than hops for energy!</li>
+                    <li>🍈 Powdermelon can become giant crop and grows in WINTER!</li>
+                    <li>🌱 Find new seeds in artifact spots, golden fishing chests, or trade with raccoons</li>
+                    <li>🔄 Use Seed Maker to multiply rare seeds once you find them</li>
+                </ul>
+            </div>
         </div>
     </div>
 
     <script>
-        // Tab functionality
+        let currentTab = 'characters';
+
         function showTab(tabName) {
-            // Hide all tab contents
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => content.classList.remove('active'));
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+                tab.style.display = 'none';
+            });
             
-            // Remove active class from all buttons
-            const tabButtons = document.querySelectorAll('.tab-button');
-            tabButtons.forEach(button => button.classList.remove('active'));
+            // Show selected tab
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+                selectedTab.style.display = 'block';
+            }
             
-            // Show selected tab content
-            document.getElementById(tabName).classList.add('active');
+            // Update button styles
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.style.opacity = '0.7';
+                btn.style.transform = 'scale(0.95)';
+            });
             
-            // Add active class to clicked button
-            event.target.classList.add('active');
+            event.target.style.opacity = '1';
+            event.target.style.transform = 'scale(1)';
+            
+            currentTab = tabName;
         }
 
-        // Character table filtering
-        function filterTable() {
-            const searchInput = document.getElementById('searchInput').value.toLowerCase();
-            const seasonFilter = document.getElementById('seasonFilter').value.toLowerCase();
-            const marriageFilter = document.getElementById('marriageFilter').value;
-            const table = document.getElementById('charactersTable');
-            const rows = table.getElementsByTagName('tr');
+        function filterTable(tableId, searchValue, columnIndices) {
+            const table = document.getElementById(tableId);
+            if (!table) return;
             
-            for (let i = 1; i < rows.length; i++) { // Start from 1 to skip header
-                const cells = rows[i].getElementsByTagName('td');
-                if (cells.length > 0) {
-                    const name = cells[0].textContent.toLowerCase();
-                    const birthday = cells[1].textContent.toLowerCase();
-                    const marriageable = cells[2].textContent.toLowerCase();
-                    const gifts = cells[3].textContent.toLowerCase();
-                    const schedule = cells[4].textContent.toLowerCase();
-                    
-                    let showRow = true;
-                    
-                    // Search filter
-                    if (searchInput && !name.includes(searchInput) && 
-                        !birthday.includes(searchInput) && 
-                        !gifts.includes(searchInput) && 
-                        !schedule.includes(searchInput)) {
-                        showRow = false;
-                    }
-                    
-                    // Season filter
-                    if (seasonFilter && !birthday.includes(seasonFilter)) {
-                        showRow = false;
-                    }
-                    
-                    // Marriage filter
-                    if (marriageFilter === 'yes' && marriageable !== 'yes') {
-                        showRow = false;
-                    } else if (marriageFilter === 'no' && marriageable !== 'no') {
-                        showRow = false;
-                    }
-                    
-                    rows[i].style.display = showRow ? '' : 'none';
+            const rows = table.querySelectorAll('tbody tr');
+            const search = searchValue.toLowerCase();
+            
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                let matchFound = false;
+                
+                if (!search) {
+                    matchFound = true;
+                } else {
+                    columnIndices.forEach(index => {
+                        if (cells[index] && cells[index].textContent.toLowerCase().includes(search)) {
+                            matchFound = true;
+                        }
+                    });
                 }
-            }
+                
+                row.style.display = matchFound ? '' : 'none';
+            });
         }
+
+        function junimoClick() {
+            const body = document.getElementById('junimoBody');
+            const heart = document.getElementById('heart');
+            const text = document.getElementById('junimoText');
+            
+            const messages = [
+                "Junimo loves helping! 💙✨",
+                "Community Center thanks you! 🏛️",
+                "Friendship level up! 🎉",
+                "Magic sparkles! ✨🌟",
+                "You're the best farmer! 🚜💚"
+            ];
+            
+            const message = messages[Math.floor(Math.random() * messages.length)];
+            
+            // Animation
+            if (body) body.setAttribute('fill', '#ff69b4');
+            if (heart) {
+                heart.style.opacity = '1';
+                heart.style.transform = 'translateY(-10px)';
+            }
+            if (text) {
+                text.textContent = message;
+                text.style.color = '#ff69b4';
+            }
+            
+            // Reset after 2 seconds
+            setTimeout(() => {
+                if (body) body.setAttribute('fill', '#4a90e2');
+                if (heart) {
+                    heart.style.opacity = '0';
+                    heart.style.transform = 'translateY(0)';
+                }
+                if (text) {
+                    text.textContent = "Your complete valley companion! 🍎🎣 (Click me!)";
+                    text.style.color = '#666';
+                }
+            }, 2000);
+        }
+
+        // Initialize - show characters tab by default
+        document.addEventListener('DOMContentLoaded', function() {
+            showTab('characters');
+        });
     </script>
 </body>
 </html>
